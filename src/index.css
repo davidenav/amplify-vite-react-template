@@ -1,18 +1,69 @@
 body {
   margin: 0;
-  background: linear-gradient(180deg, rgb(117, 81, 194), rgb(255, 255, 255));
+  background-color: #f0f0f0;
   display: flex;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   height: 100vh;
   width: 100vw;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 }
 
-main {
+header {
+  width: 100%;
+  background-color: lightblue;
+  text-align: center;
+  padding: 10px 20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 3em;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header img {
+  height: 50px; /* Adjust the height as needed */
+  margin-right: 10px; /* Space between the logo and the text */
+}
+
+header .title {
+  flex-grow: 1;
+  text-align: center;
+}
+
+header .hamburger {
+  font-size: 32px; /* Increased font size for the hamburger icon */
+  background: none;
+  border: none;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+header .hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  transition: all 0.3s ease;
+}
+
+header .hamburger.open div:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+header .hamburger.open div:nth-child(2) {
+  opacity: 0;
+}
+
+header .hamburger.open div:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 button {
@@ -55,11 +106,48 @@ li {
   padding: 8px;
 }
 
-li:hover {
-  background: #dadbf9;
+.menu {
+  position: absolute;
+  top: 60px; /* Adjust based on header height */
+  right: 10px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1000;
 }
 
-a {
-  font-weight: 800;
-  text-decoration: none;
+.menuItem {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px solid #dee2e6;
+  text-decoration: none; /* Ensure links have no underline */
+  display: block; /* Ensure links take up full width */
+}
+.menuItem:hover {
+  background-color: #f0f0f0;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.auth-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-content {
+  width: 100%;
+  padding: 20px;
 }
