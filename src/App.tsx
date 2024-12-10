@@ -19,7 +19,7 @@ interface AppProps {
 function App({ showHamburger, signOut, user }: AppProps) {
   const [userProfile, setUserProfile] = useState<userProfileType>(); 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showUserProfileForm, setShowUserProfileForm] = useState(false);
+  const [_, setShowUserProfileForm] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const navigate = useNavigate();
 

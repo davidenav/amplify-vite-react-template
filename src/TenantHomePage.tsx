@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
 import logo from './assets/images/lease.png';
 import { userProfileType } from "./CommonTypes";
 
@@ -14,7 +12,7 @@ const LandlordHomePage: React.FC<TenantHomePageProps> = ({ signOut, userProfile 
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    // get contract
+    userProfile// get contract
   }, []);
 
   return (
