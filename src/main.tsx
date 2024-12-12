@@ -6,7 +6,7 @@ import "./index.css";
 import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
 import '@aws-amplify/ui-react/styles.css';
-import { ThemeProvider, Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator } from '@aws-amplify/ui-react';
 import logo from './assets/images/lease.png'; // Adjust the path as needed
 
 Amplify.configure(outputs);
@@ -33,7 +33,6 @@ function Main() {
                   throw new Error("signOut is undefined");
                 }
                 return (
-                  <ThemeProvider>
                     <Routes>
                       <Route path="*" element={
                         <div className="main-content">
@@ -41,7 +40,6 @@ function Main() {
                         </div>
                       } />
                     </Routes>
-                  </ThemeProvider>
                 );
               }}
             </Authenticator>

@@ -53,8 +53,9 @@ const LandlordPropertiesPage: React.FC<LandlordPropertiesPageProps> = ({ propert
 const styles = {
   list: {
     listStyleType: 'none' as 'none',
-    padding: '0',
+    padding: '10px',
     margin: '20px 0',
+    backgroundColor: 'transparent',
   },
   listItem: {
     padding: '15px 20px',

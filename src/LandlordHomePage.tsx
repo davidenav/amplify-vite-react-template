@@ -54,19 +54,12 @@ const LandlordHomePage: React.FC<LandlordHomePageProps> = ({ signOut, userProfil
       <main style={styles.main}>
         <Routes>
             <Route path="/*" element={
-                <>
-                    <section style={styles.section}>
-                        <h2>Properties To Manage</h2>
-                        <ul style={styles.list}>
-                            {/* List of selected properties will go here */}
-                        </ul>
-                    </section>
-                    <section style={styles.section}>
-                        <h2>Open Incidents</h2>
-                        <ul style={styles.list}>
-                            {/* List of open incidents will go here */}
-                        </ul>
-                    </section></>
+                <section style={styles.section}>
+                    <h2>Properties To Manage</h2>
+                    <ul style={styles.list}>
+                        {/* List of selected properties will go here */}
+                    </ul>
+                </section>
             } />
             <Route path="/properties/*" element={
                 <LandlordPropertiesPage properties={properties} userProfile={userProfile} />

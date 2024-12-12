@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: #f0f0f0;
+  background-color: lightblue;
   display: flex;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   height: 100vh;
@@ -149,5 +149,5 @@ li {
 
 .main-content {
   width: 100%;
-  padding: 20px;
+  padding: 10px;
 }
