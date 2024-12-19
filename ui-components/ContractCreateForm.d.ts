@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -19,12 +19,14 @@ export declare type ContractCreateFormInputValues = {
     startDate?: string;
     endDate?: string;
     monthlyRent?: number;
+    rentCurrency?: string;
     contractDescription?: string;
 };
 export declare type ContractCreateFormValidationValues = {
     startDate?: ValidationFunction<string>;
     endDate?: ValidationFunction<string>;
     monthlyRent?: ValidationFunction<number>;
+    rentCurrency?: ValidationFunction<string>;
     contractDescription?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -33,6 +35,7 @@ export declare type ContractCreateFormOverridesProps = {
     startDate?: PrimitiveOverrideProps<TextFieldProps>;
     endDate?: PrimitiveOverrideProps<TextFieldProps>;
     monthlyRent?: PrimitiveOverrideProps<TextFieldProps>;
+    rentCurrency?: PrimitiveOverrideProps<SelectFieldProps>;
     contractDescription?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ContractCreateFormProps = React.PropsWithChildren<{

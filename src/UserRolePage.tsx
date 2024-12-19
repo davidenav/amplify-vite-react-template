@@ -53,9 +53,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  roleButtonHover: {
-    backgroundColor: '#0056b3',
-  },
 };
 
 export default UserRolePage;

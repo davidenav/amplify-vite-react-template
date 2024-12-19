@@ -6,8 +6,20 @@ export const getContract = /* GraphQL */ `
   query GetContract($id: ID!) {
     getContract(id: $id) {
       contractDescription
+      contractRequests {
+        nextToken
+        __typename
+      }
       createdAt
       endDate
+      extensionOption {
+        extension
+        extensionPeriod
+        extensionPeriodType
+        extensionPrice
+        extensionPriceCurrency
+        __typename
+      }
       id
       incidents {
         nextToken
@@ -15,21 +27,33 @@ export const getContract = /* GraphQL */ `
       }
       monthlyRent
       property {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       propertyId
+      rentCurrency
       startDate
       tenant {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -37,10 +61,56 @@ export const getContract = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getContractRequests = /* GraphQL */ `
+  query GetContractRequests($id: ID!) {
+    getContractRequests(id: $id) {
+      contract {
+        contractDescription
+        createdAt
+        endDate
+        id
+        monthlyRent
+        propertyId
+        rentCurrency
+        startDate
         tenantId
         updatedAt
         __typename
       }
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenant {
+        birthday
+        city
+        country
+        createdAt
+        displayName
+        email
+        gender
+        givenName
+        lastName
+        phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      type
       updatedAt
       __typename
     }
@@ -56,7 +126,9 @@ export const getIncident = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -74,25 +146,27 @@ export const getIncident = /* GraphQL */ `
 export const getProperty = /* GraphQL */ `
   query GetProperty($id: ID!) {
     getProperty(id: $id) {
-      activeContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      city
+      contracts {
+        nextToken
         __typename
       }
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
+      numberOfRooms
       propertyLandlord {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -100,22 +174,30 @@ export const getProperty = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
-      propertySize
-      propertyType
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
   }
 `;
 export const getUserProfile = /* GraphQL */ `
-  query GetUserProfile($email: String!) {
+  query GetUserProfile($email: AWSEmail!) {
     getUserProfile(email: $email) {
-      address
       birthday
+      city
+      contractRequests {
+        nextToken
+        __typename
+      }
+      country
       createdAt
       displayName
       email
@@ -127,19 +209,40 @@ export const getUserProfile = /* GraphQL */ `
         nextToken
         __typename
       }
-      tenantContract {
-        contractDescription
+      street
+      tenantContracts {
+        nextToken
+        __typename
+      }
+      updatedAt
+      zip
+      __typename
+    }
+  }
+`;
+export const listContractRequests = /* GraphQL */ `
+  query ListContractRequests(
+    $filter: ModelContractRequestsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listContractRequests(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        contractId
         createdAt
-        endDate
         id
-        monthlyRent
-        propertyId
-        startDate
+        responseText
+        status
+        tenantId
+        type
         updatedAt
         __typename
       }
-      tenantId
-      updatedAt
+      nextToken
       __typename
     }
   }
@@ -158,7 +261,9 @@ export const listContracts = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -197,14 +302,24 @@ export const listProperties = /* GraphQL */ `
   ) {
     listProperties(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       nextToken
@@ -214,7 +329,7 @@ export const listProperties = /* GraphQL */ `
 `;
 export const listUserProfiles = /* GraphQL */ `
   query ListUserProfiles(
-    $email: String
+    $email: AWSEmail
     $filter: ModelUserProfileFilterInput
     $limit: Int
     $nextToken: String
@@ -228,8 +343,9 @@ export const listUserProfiles = /* GraphQL */ `
       sortDirection: $sortDirection
     ) {
       items {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -237,8 +353,9 @@ export const listUserProfiles = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
       nextToken

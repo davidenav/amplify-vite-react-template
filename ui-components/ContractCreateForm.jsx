@@ -1,10 +1,21 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createContract } from "./graphql/mutations";
+// imports
+import { FileUploader } from "@aws-amplify/ui-react-storage";
+// import the processFile helper function which will create unique filenames based on the file contents
+import { processFile } from "./utils";
+
 const client = generateClient();
 export default function ContractCreateForm(props) {
   const {
@@ -15,35 +26,48 @@ export default function ContractCreateForm(props) {
     onValidate,
     onChange,
     overrides,
+    propertyId,
     ...rest
   } = props;
   const initialValues = {
     startDate: "",
     endDate: "",
     monthlyRent: "",
+    rentCurrency: "",
     contractDescription: "",
+    contractPdf: "",
   };
   const [startDate, setStartDate] = React.useState(initialValues.startDate);
   const [endDate, setEndDate] = React.useState(initialValues.endDate);
   const [monthlyRent, setMonthlyRent] = React.useState(
     initialValues.monthlyRent
   );
+  const [rentCurrency, setRentCurrency] = React.useState(
+    initialValues.rentCurrency
+  );
   const [contractDescription, setContractDescription] = React.useState(
     initialValues.contractDescription
+  );
+  const [contractPdf, setContractPdf] = React.useState(
+    initialValues.contractPdf
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setStartDate(initialValues.startDate);
     setEndDate(initialValues.endDate);
     setMonthlyRent(initialValues.monthlyRent);
+    setRentCurrency(initialValues.rentCurrency);
     setContractDescription(initialValues.contractDescription);
+    setContractPdf(initialValues.contractPdf);
     setErrors({});
   };
   const validations = {
     startDate: [],
     endDate: [],
     monthlyRent: [],
+    rentCurrency: [],
     contractDescription: [],
+    contractPdf: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -74,7 +98,9 @@ export default function ContractCreateForm(props) {
           startDate,
           endDate,
           monthlyRent,
+          rentCurrency,
           contractDescription,
+          contractPdf,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -109,6 +135,7 @@ export default function ContractCreateForm(props) {
             variables: {
               input: {
                 ...modelFields,
+                propertyId: propertyId,
               },
             },
           });
@@ -141,7 +168,9 @@ export default function ContractCreateForm(props) {
               startDate: value,
               endDate,
               monthlyRent,
+              rentCurrency,
               contractDescription,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.startDate ?? value;
@@ -169,7 +198,9 @@ export default function ContractCreateForm(props) {
               startDate,
               endDate: value,
               monthlyRent,
+              rentCurrency,
               contractDescription,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.endDate ?? value;
@@ -200,7 +231,9 @@ export default function ContractCreateForm(props) {
               startDate,
               endDate,
               monthlyRent: value,
+              rentCurrency,
               contractDescription,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.monthlyRent ?? value;
@@ -215,6 +248,51 @@ export default function ContractCreateForm(props) {
         hasError={errors.monthlyRent?.hasError}
         {...getOverrideProps(overrides, "monthlyRent")}
       ></TextField>
+      <SelectField
+        label="Rent currency"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={rentCurrency}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              startDate,
+              endDate,
+              monthlyRent,
+              rentCurrency: value,
+              contractDescription,
+              contractPdf,
+            };
+            const result = onChange(modelFields);
+            value = result?.rentCurrency ?? value;
+          }
+          if (errors.rentCurrency?.hasError) {
+            runValidationTasks("rentCurrency", value);
+          }
+          setRentCurrency(value);
+        }}
+        onBlur={() => runValidationTasks("rentCurrency", rentCurrency)}
+        errorMessage={errors.rentCurrency?.errorMessage}
+        hasError={errors.rentCurrency?.hasError}
+        {...getOverrideProps(overrides, "rentCurrency")}
+      >
+        <option
+          children="Usd"
+          value="USD"
+          {...getOverrideProps(overrides, "rentCurrencyoption0")}
+        ></option>
+        <option
+          children="Eur"
+          value="EUR"
+          {...getOverrideProps(overrides, "rentCurrencyoption1")}
+        ></option>
+        <option
+          children="Ils"
+          value="ILS"
+          {...getOverrideProps(overrides, "rentCurrencyoption2")}
+        ></option>
+      </SelectField>
       <TextField
         label="Contract description"
         isRequired={false}
@@ -227,6 +305,7 @@ export default function ContractCreateForm(props) {
               startDate,
               endDate,
               monthlyRent,
+              rentCurrency,
               contractDescription: value,
             };
             const result = onChange(modelFields);
@@ -244,6 +323,19 @@ export default function ContractCreateForm(props) {
         hasError={errors.contractDescription?.hasError}
         {...getOverrideProps(overrides, "contractDescription")}
       ></TextField>
+      <FileUploader
+        maxFileCount={1}
+        path="public/"
+        maxfileSize={30000000}
+        acceptedFileTypes={['.pdf']}
+        processFile={processFile}
+        onUploadSuccess={({key}) => {
+          setContractPdf(key)
+        }}
+        onFileRemove={({key}) => {
+          setContractPdf(undefined)
+        }}
+      />
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

@@ -6,8 +6,20 @@ export const onCreateContract = /* GraphQL */ `
   subscription OnCreateContract($filter: ModelSubscriptionContractFilterInput) {
     onCreateContract(filter: $filter) {
       contractDescription
+      contractRequests {
+        nextToken
+        __typename
+      }
       createdAt
       endDate
+      extensionOption {
+        extension
+        extensionPeriod
+        extensionPeriodType
+        extensionPrice
+        extensionPriceCurrency
+        __typename
+      }
       id
       incidents {
         nextToken
@@ -15,21 +27,33 @@ export const onCreateContract = /* GraphQL */ `
       }
       monthlyRent
       property {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       propertyId
+      rentCurrency
       startDate
       tenant {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -37,10 +61,58 @@ export const onCreateContract = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateContractRequests = /* GraphQL */ `
+  subscription OnCreateContractRequests(
+    $filter: ModelSubscriptionContractRequestsFilterInput
+  ) {
+    onCreateContractRequests(filter: $filter) {
+      contract {
+        contractDescription
+        createdAt
+        endDate
+        id
+        monthlyRent
+        propertyId
+        rentCurrency
+        startDate
         tenantId
         updatedAt
         __typename
       }
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenant {
+        birthday
+        city
+        country
+        createdAt
+        displayName
+        email
+        gender
+        givenName
+        lastName
+        phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      type
       updatedAt
       __typename
     }
@@ -56,7 +128,9 @@ export const onCreateIncident = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -74,25 +148,27 @@ export const onCreateIncident = /* GraphQL */ `
 export const onCreateProperty = /* GraphQL */ `
   subscription OnCreateProperty($filter: ModelSubscriptionPropertyFilterInput) {
     onCreateProperty(filter: $filter) {
-      activeContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      city
+      contracts {
+        nextToken
         __typename
       }
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
+      numberOfRooms
       propertyLandlord {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -100,13 +176,16 @@ export const onCreateProperty = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
-      propertySize
-      propertyType
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
   }
@@ -116,8 +195,13 @@ export const onCreateUserProfile = /* GraphQL */ `
     $filter: ModelSubscriptionUserProfileFilterInput
   ) {
     onCreateUserProfile(filter: $filter) {
-      address
       birthday
+      city
+      contractRequests {
+        nextToken
+        __typename
+      }
+      country
       createdAt
       displayName
       email
@@ -129,19 +213,13 @@ export const onCreateUserProfile = /* GraphQL */ `
         nextToken
         __typename
       }
-      tenantContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      street
+      tenantContracts {
+        nextToken
         __typename
       }
-      tenantId
       updatedAt
+      zip
       __typename
     }
   }
@@ -150,8 +228,20 @@ export const onDeleteContract = /* GraphQL */ `
   subscription OnDeleteContract($filter: ModelSubscriptionContractFilterInput) {
     onDeleteContract(filter: $filter) {
       contractDescription
+      contractRequests {
+        nextToken
+        __typename
+      }
       createdAt
       endDate
+      extensionOption {
+        extension
+        extensionPeriod
+        extensionPeriodType
+        extensionPrice
+        extensionPriceCurrency
+        __typename
+      }
       id
       incidents {
         nextToken
@@ -159,21 +249,33 @@ export const onDeleteContract = /* GraphQL */ `
       }
       monthlyRent
       property {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       propertyId
+      rentCurrency
       startDate
       tenant {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -181,10 +283,58 @@ export const onDeleteContract = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteContractRequests = /* GraphQL */ `
+  subscription OnDeleteContractRequests(
+    $filter: ModelSubscriptionContractRequestsFilterInput
+  ) {
+    onDeleteContractRequests(filter: $filter) {
+      contract {
+        contractDescription
+        createdAt
+        endDate
+        id
+        monthlyRent
+        propertyId
+        rentCurrency
+        startDate
         tenantId
         updatedAt
         __typename
       }
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenant {
+        birthday
+        city
+        country
+        createdAt
+        displayName
+        email
+        gender
+        givenName
+        lastName
+        phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      type
       updatedAt
       __typename
     }
@@ -200,7 +350,9 @@ export const onDeleteIncident = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -218,25 +370,27 @@ export const onDeleteIncident = /* GraphQL */ `
 export const onDeleteProperty = /* GraphQL */ `
   subscription OnDeleteProperty($filter: ModelSubscriptionPropertyFilterInput) {
     onDeleteProperty(filter: $filter) {
-      activeContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      city
+      contracts {
+        nextToken
         __typename
       }
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
+      numberOfRooms
       propertyLandlord {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -244,13 +398,16 @@ export const onDeleteProperty = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
-      propertySize
-      propertyType
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
   }
@@ -260,8 +417,13 @@ export const onDeleteUserProfile = /* GraphQL */ `
     $filter: ModelSubscriptionUserProfileFilterInput
   ) {
     onDeleteUserProfile(filter: $filter) {
-      address
       birthday
+      city
+      contractRequests {
+        nextToken
+        __typename
+      }
+      country
       createdAt
       displayName
       email
@@ -273,19 +435,13 @@ export const onDeleteUserProfile = /* GraphQL */ `
         nextToken
         __typename
       }
-      tenantContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      street
+      tenantContracts {
+        nextToken
         __typename
       }
-      tenantId
       updatedAt
+      zip
       __typename
     }
   }
@@ -294,8 +450,20 @@ export const onUpdateContract = /* GraphQL */ `
   subscription OnUpdateContract($filter: ModelSubscriptionContractFilterInput) {
     onUpdateContract(filter: $filter) {
       contractDescription
+      contractRequests {
+        nextToken
+        __typename
+      }
       createdAt
       endDate
+      extensionOption {
+        extension
+        extensionPeriod
+        extensionPeriodType
+        extensionPrice
+        extensionPriceCurrency
+        __typename
+      }
       id
       incidents {
         nextToken
@@ -303,21 +471,33 @@ export const onUpdateContract = /* GraphQL */ `
       }
       monthlyRent
       property {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       propertyId
+      rentCurrency
       startDate
       tenant {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -325,10 +505,58 @@ export const onUpdateContract = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateContractRequests = /* GraphQL */ `
+  subscription OnUpdateContractRequests(
+    $filter: ModelSubscriptionContractRequestsFilterInput
+  ) {
+    onUpdateContractRequests(filter: $filter) {
+      contract {
+        contractDescription
+        createdAt
+        endDate
+        id
+        monthlyRent
+        propertyId
+        rentCurrency
+        startDate
         tenantId
         updatedAt
         __typename
       }
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenant {
+        birthday
+        city
+        country
+        createdAt
+        displayName
+        email
+        gender
+        givenName
+        lastName
+        phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      type
       updatedAt
       __typename
     }
@@ -344,7 +572,9 @@ export const onUpdateIncident = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -362,25 +592,27 @@ export const onUpdateIncident = /* GraphQL */ `
 export const onUpdateProperty = /* GraphQL */ `
   subscription OnUpdateProperty($filter: ModelSubscriptionPropertyFilterInput) {
     onUpdateProperty(filter: $filter) {
-      activeContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      city
+      contracts {
+        nextToken
         __typename
       }
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
+      numberOfRooms
       propertyLandlord {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -388,13 +620,16 @@ export const onUpdateProperty = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
-      propertySize
-      propertyType
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
   }
@@ -404,8 +639,13 @@ export const onUpdateUserProfile = /* GraphQL */ `
     $filter: ModelSubscriptionUserProfileFilterInput
   ) {
     onUpdateUserProfile(filter: $filter) {
-      address
       birthday
+      city
+      contractRequests {
+        nextToken
+        __typename
+      }
+      country
       createdAt
       displayName
       email
@@ -417,19 +657,13 @@ export const onUpdateUserProfile = /* GraphQL */ `
         nextToken
         __typename
       }
-      tenantContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      street
+      tenantContracts {
+        nextToken
         __typename
       }
-      tenantId
       updatedAt
+      zip
       __typename
     }
   }

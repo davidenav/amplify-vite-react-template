@@ -11,8 +11,21 @@ type GeneratedQuery<InputType, OutputType> = string & {
 export const getContract = /* GraphQL */ `query GetContract($id: ID!) {
   getContract(id: $id) {
     contractDescription
+    contractPdf
+    contractRequests {
+      nextToken
+      __typename
+    }
     createdAt
     endDate
+    extensionOption {
+      extension
+      extensionPeriod
+      extensionPeriodType
+      extensionPrice
+      extensionPriceCurrency
+      __typename
+    }
     id
     incidents {
       nextToken
@@ -20,21 +33,33 @@ export const getContract = /* GraphQL */ `query GetContract($id: ID!) {
     }
     monthlyRent
     property {
+      city
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
-      propertySize
-      propertyType
+      numberOfRooms
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
     propertyId
+    rentCurrency
     startDate
     tenant {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -42,10 +67,12 @@ export const getContract = /* GraphQL */ `query GetContract($id: ID!) {
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
+    tenantId
     updatedAt
     __typename
   }
@@ -54,16 +81,66 @@ export const getContract = /* GraphQL */ `query GetContract($id: ID!) {
   APITypes.GetContractQueryVariables,
   APITypes.GetContractQuery
 >;
-export const getIncident = /* GraphQL */ `query GetIncident($id: ID!) {
-  getIncident(id: $id) {
+export const getContractRequests = /* GraphQL */ `query GetContractRequests($id: ID!) {
+  getContractRequests(id: $id) {
     contract {
       contractDescription
+      contractPdf
       createdAt
       endDate
       id
       monthlyRent
       propertyId
+      rentCurrency
       startDate
+      tenantId
+      updatedAt
+      __typename
+    }
+    contractId
+    createdAt
+    id
+    responseText
+    status
+    tenant {
+      birthday
+      city
+      country
+      createdAt
+      displayName
+      email
+      gender
+      givenName
+      lastName
+      phoneNumber
+      street
+      updatedAt
+      zip
+      __typename
+    }
+    tenantId
+    type
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetContractRequestsQueryVariables,
+  APITypes.GetContractRequestsQuery
+>;
+export const getIncident = /* GraphQL */ `query GetIncident($id: ID!) {
+  getIncident(id: $id) {
+    contract {
+      contractDescription
+      contractPdf
+      createdAt
+      endDate
+      id
+      monthlyRent
+      propertyId
+      rentCurrency
+      startDate
+      tenantId
       updatedAt
       __typename
     }
@@ -73,6 +150,7 @@ export const getIncident = /* GraphQL */ `query GetIncident($id: ID!) {
     description
     id
     status
+    title
     updatedAt
     __typename
   }
@@ -83,25 +161,27 @@ export const getIncident = /* GraphQL */ `query GetIncident($id: ID!) {
 >;
 export const getProperty = /* GraphQL */ `query GetProperty($id: ID!) {
   getProperty(id: $id) {
-    activeContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    city
+    contracts {
+      nextToken
       __typename
     }
+    country
     createdAt
+    description
+    displayName
+    floor
+    hasBalcony
+    hasElevator
+    hasParking
+    hasSaferoom
     id
     landlordId
-    propertyAddress
-    propertyDescription
+    numberOfRooms
     propertyLandlord {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -109,13 +189,16 @@ export const getProperty = /* GraphQL */ `query GetProperty($id: ID!) {
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
-    propertySize
-    propertyType
+    size
+    street
+    type
     updatedAt
+    zip
     __typename
   }
 }
@@ -123,10 +206,15 @@ export const getProperty = /* GraphQL */ `query GetProperty($id: ID!) {
   APITypes.GetPropertyQueryVariables,
   APITypes.GetPropertyQuery
 >;
-export const getUserProfile = /* GraphQL */ `query GetUserProfile($email: String!) {
+export const getUserProfile = /* GraphQL */ `query GetUserProfile($email: AWSEmail!) {
   getUserProfile(email: $email) {
-    address
     birthday
+    city
+    contractRequests {
+      nextToken
+      __typename
+    }
+    country
     createdAt
     displayName
     email
@@ -138,25 +226,44 @@ export const getUserProfile = /* GraphQL */ `query GetUserProfile($email: String
       nextToken
       __typename
     }
-    tenantContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    street
+    tenantContracts {
+      nextToken
       __typename
     }
-    tenantId
     updatedAt
+    zip
     __typename
   }
 }
 ` as GeneratedQuery<
   APITypes.GetUserProfileQueryVariables,
   APITypes.GetUserProfileQuery
+>;
+export const listContractRequests = /* GraphQL */ `query ListContractRequests(
+  $filter: ModelContractRequestsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listContractRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenantId
+      type
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListContractRequestsQueryVariables,
+  APITypes.ListContractRequestsQuery
 >;
 export const listContracts = /* GraphQL */ `query ListContracts(
   $filter: ModelContractFilterInput
@@ -166,12 +273,15 @@ export const listContracts = /* GraphQL */ `query ListContracts(
   listContracts(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       contractDescription
+      contractPdf
       createdAt
       endDate
       id
       monthlyRent
       propertyId
+      rentCurrency
       startDate
+      tenantId
       updatedAt
       __typename
     }
@@ -196,6 +306,7 @@ export const listIncidents = /* GraphQL */ `query ListIncidents(
       description
       id
       status
+      title
       updatedAt
       __typename
     }
@@ -214,14 +325,24 @@ export const listProperties = /* GraphQL */ `query ListProperties(
 ) {
   listProperties(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
+      city
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
-      propertySize
-      propertyType
+      numberOfRooms
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
     nextToken
@@ -233,7 +354,7 @@ export const listProperties = /* GraphQL */ `query ListProperties(
   APITypes.ListPropertiesQuery
 >;
 export const listUserProfiles = /* GraphQL */ `query ListUserProfiles(
-  $email: String
+  $email: AWSEmail
   $filter: ModelUserProfileFilterInput
   $limit: Int
   $nextToken: String
@@ -247,8 +368,9 @@ export const listUserProfiles = /* GraphQL */ `query ListUserProfiles(
     sortDirection: $sortDirection
   ) {
     items {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -256,8 +378,9 @@ export const listUserProfiles = /* GraphQL */ `query ListUserProfiles(
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
     nextToken

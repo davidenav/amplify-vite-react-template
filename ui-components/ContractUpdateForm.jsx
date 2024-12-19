@@ -1,7 +1,13 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getContract } from "./graphql/queries";
@@ -23,12 +29,16 @@ export default function ContractUpdateForm(props) {
     startDate: "",
     endDate: "",
     monthlyRent: "",
+    rentCurrency: "",
     contractDescription: "",
   };
   const [startDate, setStartDate] = React.useState(initialValues.startDate);
   const [endDate, setEndDate] = React.useState(initialValues.endDate);
   const [monthlyRent, setMonthlyRent] = React.useState(
     initialValues.monthlyRent
+  );
+  const [rentCurrency, setRentCurrency] = React.useState(
+    initialValues.rentCurrency
   );
   const [contractDescription, setContractDescription] = React.useState(
     initialValues.contractDescription
@@ -41,6 +51,7 @@ export default function ContractUpdateForm(props) {
     setStartDate(cleanValues.startDate);
     setEndDate(cleanValues.endDate);
     setMonthlyRent(cleanValues.monthlyRent);
+    setRentCurrency(cleanValues.rentCurrency);
     setContractDescription(cleanValues.contractDescription);
     setErrors({});
   };
@@ -64,6 +75,7 @@ export default function ContractUpdateForm(props) {
     startDate: [],
     endDate: [],
     monthlyRent: [],
+    rentCurrency: [],
     contractDescription: [],
   };
   const runValidationTasks = async (
@@ -95,6 +107,7 @@ export default function ContractUpdateForm(props) {
           startDate: startDate ?? null,
           endDate: endDate ?? null,
           monthlyRent: monthlyRent ?? null,
+          rentCurrency: rentCurrency ?? null,
           contractDescription: contractDescription ?? null,
         };
         const validationResponses = await Promise.all(
@@ -160,6 +173,7 @@ export default function ContractUpdateForm(props) {
               startDate: value,
               endDate,
               monthlyRent,
+              rentCurrency,
               contractDescription,
             };
             const result = onChange(modelFields);
@@ -188,6 +202,7 @@ export default function ContractUpdateForm(props) {
               startDate,
               endDate: value,
               monthlyRent,
+              rentCurrency,
               contractDescription,
             };
             const result = onChange(modelFields);
@@ -219,6 +234,7 @@ export default function ContractUpdateForm(props) {
               startDate,
               endDate,
               monthlyRent: value,
+              rentCurrency,
               contractDescription,
             };
             const result = onChange(modelFields);
@@ -234,6 +250,50 @@ export default function ContractUpdateForm(props) {
         hasError={errors.monthlyRent?.hasError}
         {...getOverrideProps(overrides, "monthlyRent")}
       ></TextField>
+      <SelectField
+        label="Rent currency"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={rentCurrency}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              startDate,
+              endDate,
+              monthlyRent,
+              rentCurrency: value,
+              contractDescription,
+            };
+            const result = onChange(modelFields);
+            value = result?.rentCurrency ?? value;
+          }
+          if (errors.rentCurrency?.hasError) {
+            runValidationTasks("rentCurrency", value);
+          }
+          setRentCurrency(value);
+        }}
+        onBlur={() => runValidationTasks("rentCurrency", rentCurrency)}
+        errorMessage={errors.rentCurrency?.errorMessage}
+        hasError={errors.rentCurrency?.hasError}
+        {...getOverrideProps(overrides, "rentCurrency")}
+      >
+        <option
+          children="Usd"
+          value="USD"
+          {...getOverrideProps(overrides, "rentCurrencyoption0")}
+        ></option>
+        <option
+          children="Eur"
+          value="EUR"
+          {...getOverrideProps(overrides, "rentCurrencyoption1")}
+        ></option>
+        <option
+          children="Ils"
+          value="ILS"
+          {...getOverrideProps(overrides, "rentCurrencyoption2")}
+        ></option>
+      </SelectField>
       <TextField
         label="Contract description"
         isRequired={false}
@@ -246,6 +306,7 @@ export default function ContractUpdateForm(props) {
               startDate,
               endDate,
               monthlyRent,
+              rentCurrency,
               contractDescription: value,
             };
             const result = onChange(modelFields);

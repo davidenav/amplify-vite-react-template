@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { UserProfile } from "./graphql/types";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -23,7 +23,10 @@ export declare type UserProfileUpdateFormInputValues = {
     birthday?: string;
     email?: string;
     phoneNumber?: string;
-    address?: string;
+    street?: string;
+    city?: string;
+    zip?: string;
+    country?: string;
     gender?: string;
 };
 export declare type UserProfileUpdateFormValidationValues = {
@@ -33,7 +36,10 @@ export declare type UserProfileUpdateFormValidationValues = {
     birthday?: ValidationFunction<string>;
     email?: ValidationFunction<string>;
     phoneNumber?: ValidationFunction<string>;
-    address?: ValidationFunction<string>;
+    street?: ValidationFunction<string>;
+    city?: ValidationFunction<string>;
+    zip?: ValidationFunction<string>;
+    country?: ValidationFunction<string>;
     gender?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -45,8 +51,11 @@ export declare type UserProfileUpdateFormOverridesProps = {
     birthday?: PrimitiveOverrideProps<TextFieldProps>;
     email?: PrimitiveOverrideProps<TextFieldProps>;
     phoneNumber?: PrimitiveOverrideProps<TextFieldProps>;
-    address?: PrimitiveOverrideProps<TextFieldProps>;
-    gender?: PrimitiveOverrideProps<TextFieldProps>;
+    street?: PrimitiveOverrideProps<TextFieldProps>;
+    city?: PrimitiveOverrideProps<TextFieldProps>;
+    zip?: PrimitiveOverrideProps<TextFieldProps>;
+    country?: PrimitiveOverrideProps<TextFieldProps>;
+    gender?: PrimitiveOverrideProps<SelectFieldProps>;
 } & EscapeHatchProps;
 export declare type UserProfileUpdateFormProps = React.PropsWithChildren<{
     overrides?: UserProfileUpdateFormOverridesProps | undefined | null;

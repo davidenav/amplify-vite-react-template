@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { Property } from "./graphql/types";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -17,24 +17,54 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type PropertyUpdateFormInputValues = {
-    propertyAddress?: string;
-    propertyType?: string;
-    propertySize?: string;
-    propertyDescription?: string;
+    displayName?: string;
+    street?: string;
+    city?: string;
+    zip?: string;
+    country?: string;
+    type?: string;
+    size?: number;
+    numberOfRooms?: number;
+    floor?: number;
+    hasElevator?: boolean;
+    hasBalcony?: boolean;
+    hasParking?: boolean;
+    hasSaferoom?: boolean;
+    description?: string;
 };
 export declare type PropertyUpdateFormValidationValues = {
-    propertyAddress?: ValidationFunction<string>;
-    propertyType?: ValidationFunction<string>;
-    propertySize?: ValidationFunction<string>;
-    propertyDescription?: ValidationFunction<string>;
+    displayName?: ValidationFunction<string>;
+    street?: ValidationFunction<string>;
+    city?: ValidationFunction<string>;
+    zip?: ValidationFunction<string>;
+    country?: ValidationFunction<string>;
+    type?: ValidationFunction<string>;
+    size?: ValidationFunction<number>;
+    numberOfRooms?: ValidationFunction<number>;
+    floor?: ValidationFunction<number>;
+    hasElevator?: ValidationFunction<boolean>;
+    hasBalcony?: ValidationFunction<boolean>;
+    hasParking?: ValidationFunction<boolean>;
+    hasSaferoom?: ValidationFunction<boolean>;
+    description?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PropertyUpdateFormOverridesProps = {
     PropertyUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    propertyAddress?: PrimitiveOverrideProps<TextFieldProps>;
-    propertyType?: PrimitiveOverrideProps<TextFieldProps>;
-    propertySize?: PrimitiveOverrideProps<TextFieldProps>;
-    propertyDescription?: PrimitiveOverrideProps<TextFieldProps>;
+    displayName?: PrimitiveOverrideProps<TextFieldProps>;
+    street?: PrimitiveOverrideProps<TextFieldProps>;
+    city?: PrimitiveOverrideProps<TextFieldProps>;
+    zip?: PrimitiveOverrideProps<TextFieldProps>;
+    country?: PrimitiveOverrideProps<TextFieldProps>;
+    type?: PrimitiveOverrideProps<SelectFieldProps>;
+    size?: PrimitiveOverrideProps<TextFieldProps>;
+    numberOfRooms?: PrimitiveOverrideProps<TextFieldProps>;
+    floor?: PrimitiveOverrideProps<TextFieldProps>;
+    hasElevator?: PrimitiveOverrideProps<SwitchFieldProps>;
+    hasBalcony?: PrimitiveOverrideProps<SwitchFieldProps>;
+    hasParking?: PrimitiveOverrideProps<SwitchFieldProps>;
+    hasSaferoom?: PrimitiveOverrideProps<SwitchFieldProps>;
+    description?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PropertyUpdateFormProps = React.PropsWithChildren<{
     overrides?: PropertyUpdateFormOverridesProps | undefined | null;

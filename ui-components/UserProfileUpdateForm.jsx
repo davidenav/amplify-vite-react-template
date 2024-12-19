@@ -1,7 +1,13 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getUserProfile } from "./graphql/queries";
@@ -26,7 +32,10 @@ export default function UserProfileUpdateForm(props) {
     birthday: "",
     email: "",
     phoneNumber: "",
-    address: "",
+    street: "",
+    city: "",
+    zip: "",
+    country: "",
     gender: "",
   };
   const [displayName, setDisplayName] = React.useState(
@@ -39,7 +48,10 @@ export default function UserProfileUpdateForm(props) {
   const [phoneNumber, setPhoneNumber] = React.useState(
     initialValues.phoneNumber
   );
-  const [address, setAddress] = React.useState(initialValues.address);
+  const [street, setStreet] = React.useState(initialValues.street);
+  const [city, setCity] = React.useState(initialValues.city);
+  const [zip, setZip] = React.useState(initialValues.zip);
+  const [country, setCountry] = React.useState(initialValues.country);
   const [gender, setGender] = React.useState(initialValues.gender);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -52,7 +64,10 @@ export default function UserProfileUpdateForm(props) {
     setBirthday(cleanValues.birthday);
     setEmail(cleanValues.email);
     setPhoneNumber(cleanValues.phoneNumber);
-    setAddress(cleanValues.address);
+    setStreet(cleanValues.street);
+    setCity(cleanValues.city);
+    setZip(cleanValues.zip);
+    setCountry(cleanValues.country);
     setGender(cleanValues.gender);
     setErrors({});
   };
@@ -78,9 +93,12 @@ export default function UserProfileUpdateForm(props) {
     givenName: [],
     lastName: [],
     birthday: [],
-    email: [{ type: "Required" }],
-    phoneNumber: [],
-    address: [],
+    email: [{ type: "Required" }, { type: "Email" }],
+    phoneNumber: [{ type: "Phone" }],
+    street: [],
+    city: [],
+    zip: [],
+    country: [],
     gender: [],
   };
   const runValidationTasks = async (
@@ -115,7 +133,10 @@ export default function UserProfileUpdateForm(props) {
           birthday: birthday ?? null,
           email,
           phoneNumber: phoneNumber ?? null,
-          address: address ?? null,
+          street: street ?? null,
+          city: city ?? null,
+          zip: zip ?? null,
+          country: country ?? null,
           gender: gender ?? null,
         };
         const validationResponses = await Promise.all(
@@ -183,7 +204,10 @@ export default function UserProfileUpdateForm(props) {
               birthday,
               email,
               phoneNumber,
-              address,
+              street,
+              city,
+              zip,
+              country,
               gender,
             };
             const result = onChange(modelFields);
@@ -214,7 +238,10 @@ export default function UserProfileUpdateForm(props) {
               birthday,
               email,
               phoneNumber,
-              address,
+              street,
+              city,
+              zip,
+              country,
               gender,
             };
             const result = onChange(modelFields);
@@ -245,7 +272,10 @@ export default function UserProfileUpdateForm(props) {
               birthday,
               email,
               phoneNumber,
-              address,
+              street,
+              city,
+              zip,
+              country,
               gender,
             };
             const result = onChange(modelFields);
@@ -265,6 +295,7 @@ export default function UserProfileUpdateForm(props) {
         label="Birthday"
         isRequired={false}
         isReadOnly={false}
+        type="date"
         value={birthday}
         onChange={(e) => {
           let { value } = e.target;
@@ -276,7 +307,10 @@ export default function UserProfileUpdateForm(props) {
               birthday: value,
               email,
               phoneNumber,
-              address,
+              street,
+              city,
+              zip,
+              country,
               gender,
             };
             const result = onChange(modelFields);
@@ -307,7 +341,10 @@ export default function UserProfileUpdateForm(props) {
               birthday,
               email: value,
               phoneNumber,
-              address,
+              street,
+              city,
+              zip,
+              country,
               gender,
             };
             const result = onChange(modelFields);
@@ -327,6 +364,7 @@ export default function UserProfileUpdateForm(props) {
         label="Phone number"
         isRequired={false}
         isReadOnly={false}
+        type="tel"
         value={phoneNumber}
         onChange={(e) => {
           let { value } = e.target;
@@ -338,7 +376,10 @@ export default function UserProfileUpdateForm(props) {
               birthday,
               email,
               phoneNumber: value,
-              address,
+              street,
+              city,
+              zip,
+              country,
               gender,
             };
             const result = onChange(modelFields);
@@ -355,10 +396,10 @@ export default function UserProfileUpdateForm(props) {
         {...getOverrideProps(overrides, "phoneNumber")}
       ></TextField>
       <TextField
-        label="Address"
+        label="Street"
         isRequired={false}
         isReadOnly={false}
-        value={address}
+        value={street}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -369,26 +410,131 @@ export default function UserProfileUpdateForm(props) {
               birthday,
               email,
               phoneNumber,
-              address: value,
+              street: value,
+              city,
+              zip,
+              country,
               gender,
             };
             const result = onChange(modelFields);
-            value = result?.address ?? value;
+            value = result?.street ?? value;
           }
-          if (errors.address?.hasError) {
-            runValidationTasks("address", value);
+          if (errors.street?.hasError) {
+            runValidationTasks("street", value);
           }
-          setAddress(value);
+          setStreet(value);
         }}
-        onBlur={() => runValidationTasks("address", address)}
-        errorMessage={errors.address?.errorMessage}
-        hasError={errors.address?.hasError}
-        {...getOverrideProps(overrides, "address")}
+        onBlur={() => runValidationTasks("street", street)}
+        errorMessage={errors.street?.errorMessage}
+        hasError={errors.street?.hasError}
+        {...getOverrideProps(overrides, "street")}
       ></TextField>
       <TextField
-        label="Gender"
+        label="City"
         isRequired={false}
         isReadOnly={false}
+        value={city}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              displayName,
+              givenName,
+              lastName,
+              birthday,
+              email,
+              phoneNumber,
+              street,
+              city: value,
+              zip,
+              country,
+              gender,
+            };
+            const result = onChange(modelFields);
+            value = result?.city ?? value;
+          }
+          if (errors.city?.hasError) {
+            runValidationTasks("city", value);
+          }
+          setCity(value);
+        }}
+        onBlur={() => runValidationTasks("city", city)}
+        errorMessage={errors.city?.errorMessage}
+        hasError={errors.city?.hasError}
+        {...getOverrideProps(overrides, "city")}
+      ></TextField>
+      <TextField
+        label="Zip"
+        isRequired={false}
+        isReadOnly={false}
+        value={zip}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              displayName,
+              givenName,
+              lastName,
+              birthday,
+              email,
+              phoneNumber,
+              street,
+              city,
+              zip: value,
+              country,
+              gender,
+            };
+            const result = onChange(modelFields);
+            value = result?.zip ?? value;
+          }
+          if (errors.zip?.hasError) {
+            runValidationTasks("zip", value);
+          }
+          setZip(value);
+        }}
+        onBlur={() => runValidationTasks("zip", zip)}
+        errorMessage={errors.zip?.errorMessage}
+        hasError={errors.zip?.hasError}
+        {...getOverrideProps(overrides, "zip")}
+      ></TextField>
+      <TextField
+        label="Country"
+        isRequired={false}
+        isReadOnly={false}
+        value={country}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              displayName,
+              givenName,
+              lastName,
+              birthday,
+              email,
+              phoneNumber,
+              street,
+              city,
+              zip,
+              country: value,
+              gender,
+            };
+            const result = onChange(modelFields);
+            value = result?.country ?? value;
+          }
+          if (errors.country?.hasError) {
+            runValidationTasks("country", value);
+          }
+          setCountry(value);
+        }}
+        onBlur={() => runValidationTasks("country", country)}
+        errorMessage={errors.country?.errorMessage}
+        hasError={errors.country?.hasError}
+        {...getOverrideProps(overrides, "country")}
+      ></TextField>
+      <SelectField
+        label="Gender"
+        placeholder="Please select an option"
+        isDisabled={false}
         value={gender}
         onChange={(e) => {
           let { value } = e.target;
@@ -400,7 +546,10 @@ export default function UserProfileUpdateForm(props) {
               birthday,
               email,
               phoneNumber,
-              address,
+              street,
+              city,
+              zip,
+              country,
               gender: value,
             };
             const result = onChange(modelFields);
@@ -415,7 +564,23 @@ export default function UserProfileUpdateForm(props) {
         errorMessage={errors.gender?.errorMessage}
         hasError={errors.gender?.hasError}
         {...getOverrideProps(overrides, "gender")}
-      ></TextField>
+      >
+        <option
+          children="Male"
+          value="Male"
+          {...getOverrideProps(overrides, "genderoption0")}
+        ></option>
+        <option
+          children="Female"
+          value="Female"
+          {...getOverrideProps(overrides, "genderoption1")}
+        ></option>
+        <option
+          children="Other"
+          value="Other"
+          {...getOverrideProps(overrides, "genderoption2")}
+        ></option>
+      </SelectField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

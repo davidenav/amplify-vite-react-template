@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import logo from './assets/images/lease.png';
-import { userProfileType } from "./CommonTypes";
 
 interface TenantHomePageProps {
   signOut: () => void;
-  userProfile: userProfileType;
+  userEmail: string;
 }
 
-const LandlordHomePage: React.FC<TenantHomePageProps> = ({ signOut, userProfile }) => {
+const LandlordHomePage: React.FC<TenantHomePageProps> = ({ signOut, userEmail }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    userProfile// get contract
+    userEmail// get contract
   }, []);
 
   return (

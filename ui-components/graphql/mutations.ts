@@ -9,8 +9,20 @@ export const createContract = /* GraphQL */ `
   ) {
     createContract(condition: $condition, input: $input) {
       contractDescription
+      contractRequests {
+        nextToken
+        __typename
+      }
       createdAt
       endDate
+      extensionOption {
+        extension
+        extensionPeriod
+        extensionPeriodType
+        extensionPrice
+        extensionPriceCurrency
+        __typename
+      }
       id
       incidents {
         nextToken
@@ -18,21 +30,33 @@ export const createContract = /* GraphQL */ `
       }
       monthlyRent
       property {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       propertyId
+      rentCurrency
       startDate
       tenant {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -40,10 +64,59 @@ export const createContract = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createContractRequests = /* GraphQL */ `
+  mutation CreateContractRequests(
+    $condition: ModelContractRequestsConditionInput
+    $input: CreateContractRequestsInput!
+  ) {
+    createContractRequests(condition: $condition, input: $input) {
+      contract {
+        contractDescription
+        createdAt
+        endDate
+        id
+        monthlyRent
+        propertyId
+        rentCurrency
+        startDate
         tenantId
         updatedAt
         __typename
       }
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenant {
+        birthday
+        city
+        country
+        createdAt
+        displayName
+        email
+        gender
+        givenName
+        lastName
+        phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      type
       updatedAt
       __typename
     }
@@ -62,7 +135,9 @@ export const createIncident = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -83,25 +158,27 @@ export const createProperty = /* GraphQL */ `
     $input: CreatePropertyInput!
   ) {
     createProperty(condition: $condition, input: $input) {
-      activeContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      city
+      contracts {
+        nextToken
         __typename
       }
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
+      numberOfRooms
       propertyLandlord {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -109,13 +186,16 @@ export const createProperty = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
-      propertySize
-      propertyType
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
   }
@@ -126,8 +206,13 @@ export const createUserProfile = /* GraphQL */ `
     $input: CreateUserProfileInput!
   ) {
     createUserProfile(condition: $condition, input: $input) {
-      address
       birthday
+      city
+      contractRequests {
+        nextToken
+        __typename
+      }
+      country
       createdAt
       displayName
       email
@@ -139,19 +224,13 @@ export const createUserProfile = /* GraphQL */ `
         nextToken
         __typename
       }
-      tenantContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      street
+      tenantContracts {
+        nextToken
         __typename
       }
-      tenantId
       updatedAt
+      zip
       __typename
     }
   }
@@ -163,8 +242,20 @@ export const deleteContract = /* GraphQL */ `
   ) {
     deleteContract(condition: $condition, input: $input) {
       contractDescription
+      contractRequests {
+        nextToken
+        __typename
+      }
       createdAt
       endDate
+      extensionOption {
+        extension
+        extensionPeriod
+        extensionPeriodType
+        extensionPrice
+        extensionPriceCurrency
+        __typename
+      }
       id
       incidents {
         nextToken
@@ -172,21 +263,33 @@ export const deleteContract = /* GraphQL */ `
       }
       monthlyRent
       property {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       propertyId
+      rentCurrency
       startDate
       tenant {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -194,10 +297,59 @@ export const deleteContract = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteContractRequests = /* GraphQL */ `
+  mutation DeleteContractRequests(
+    $condition: ModelContractRequestsConditionInput
+    $input: DeleteContractRequestsInput!
+  ) {
+    deleteContractRequests(condition: $condition, input: $input) {
+      contract {
+        contractDescription
+        createdAt
+        endDate
+        id
+        monthlyRent
+        propertyId
+        rentCurrency
+        startDate
         tenantId
         updatedAt
         __typename
       }
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenant {
+        birthday
+        city
+        country
+        createdAt
+        displayName
+        email
+        gender
+        givenName
+        lastName
+        phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      type
       updatedAt
       __typename
     }
@@ -216,7 +368,9 @@ export const deleteIncident = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -237,25 +391,27 @@ export const deleteProperty = /* GraphQL */ `
     $input: DeletePropertyInput!
   ) {
     deleteProperty(condition: $condition, input: $input) {
-      activeContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      city
+      contracts {
+        nextToken
         __typename
       }
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
+      numberOfRooms
       propertyLandlord {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -263,13 +419,16 @@ export const deleteProperty = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
-      propertySize
-      propertyType
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
   }
@@ -280,8 +439,13 @@ export const deleteUserProfile = /* GraphQL */ `
     $input: DeleteUserProfileInput!
   ) {
     deleteUserProfile(condition: $condition, input: $input) {
-      address
       birthday
+      city
+      contractRequests {
+        nextToken
+        __typename
+      }
+      country
       createdAt
       displayName
       email
@@ -293,19 +457,13 @@ export const deleteUserProfile = /* GraphQL */ `
         nextToken
         __typename
       }
-      tenantContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      street
+      tenantContracts {
+        nextToken
         __typename
       }
-      tenantId
       updatedAt
+      zip
       __typename
     }
   }
@@ -317,8 +475,20 @@ export const updateContract = /* GraphQL */ `
   ) {
     updateContract(condition: $condition, input: $input) {
       contractDescription
+      contractRequests {
+        nextToken
+        __typename
+      }
       createdAt
       endDate
+      extensionOption {
+        extension
+        extensionPeriod
+        extensionPeriodType
+        extensionPrice
+        extensionPriceCurrency
+        __typename
+      }
       id
       incidents {
         nextToken
@@ -326,21 +496,33 @@ export const updateContract = /* GraphQL */ `
       }
       monthlyRent
       property {
+        city
+        country
         createdAt
+        description
+        displayName
+        floor
+        hasBalcony
+        hasElevator
+        hasParking
+        hasSaferoom
         id
         landlordId
-        propertyAddress
-        propertyDescription
-        propertySize
-        propertyType
+        numberOfRooms
+        size
+        street
+        type
         updatedAt
+        zip
         __typename
       }
       propertyId
+      rentCurrency
       startDate
       tenant {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -348,10 +530,59 @@ export const updateContract = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateContractRequests = /* GraphQL */ `
+  mutation UpdateContractRequests(
+    $condition: ModelContractRequestsConditionInput
+    $input: UpdateContractRequestsInput!
+  ) {
+    updateContractRequests(condition: $condition, input: $input) {
+      contract {
+        contractDescription
+        createdAt
+        endDate
+        id
+        monthlyRent
+        propertyId
+        rentCurrency
+        startDate
         tenantId
         updatedAt
         __typename
       }
+      contractId
+      createdAt
+      id
+      responseText
+      status
+      tenant {
+        birthday
+        city
+        country
+        createdAt
+        displayName
+        email
+        gender
+        givenName
+        lastName
+        phoneNumber
+        street
+        updatedAt
+        zip
+        __typename
+      }
+      tenantId
+      type
       updatedAt
       __typename
     }
@@ -370,7 +601,9 @@ export const updateIncident = /* GraphQL */ `
         id
         monthlyRent
         propertyId
+        rentCurrency
         startDate
+        tenantId
         updatedAt
         __typename
       }
@@ -391,25 +624,27 @@ export const updateProperty = /* GraphQL */ `
     $input: UpdatePropertyInput!
   ) {
     updateProperty(condition: $condition, input: $input) {
-      activeContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      city
+      contracts {
+        nextToken
         __typename
       }
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
+      numberOfRooms
       propertyLandlord {
-        address
         birthday
+        city
+        country
         createdAt
         displayName
         email
@@ -417,13 +652,16 @@ export const updateProperty = /* GraphQL */ `
         givenName
         lastName
         phoneNumber
-        tenantId
+        street
         updatedAt
+        zip
         __typename
       }
-      propertySize
-      propertyType
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
   }
@@ -434,8 +672,13 @@ export const updateUserProfile = /* GraphQL */ `
     $input: UpdateUserProfileInput!
   ) {
     updateUserProfile(condition: $condition, input: $input) {
-      address
       birthday
+      city
+      contractRequests {
+        nextToken
+        __typename
+      }
+      country
       createdAt
       displayName
       email
@@ -447,19 +690,13 @@ export const updateUserProfile = /* GraphQL */ `
         nextToken
         __typename
       }
-      tenantContract {
-        contractDescription
-        createdAt
-        endDate
-        id
-        monthlyRent
-        propertyId
-        startDate
-        updatedAt
+      street
+      tenantContracts {
+        nextToken
         __typename
       }
-      tenantId
       updatedAt
+      zip
       __typename
     }
   }

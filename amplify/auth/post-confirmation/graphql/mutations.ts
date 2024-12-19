@@ -14,8 +14,21 @@ export const createContract = /* GraphQL */ `mutation CreateContract(
 ) {
   createContract(condition: $condition, input: $input) {
     contractDescription
+    contractPdf
+    contractRequests {
+      nextToken
+      __typename
+    }
     createdAt
     endDate
+    extensionOption {
+      extension
+      extensionPeriod
+      extensionPeriodType
+      extensionPrice
+      extensionPriceCurrency
+      __typename
+    }
     id
     incidents {
       nextToken
@@ -23,21 +36,33 @@ export const createContract = /* GraphQL */ `mutation CreateContract(
     }
     monthlyRent
     property {
+      city
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
-      propertySize
-      propertyType
+      numberOfRooms
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
     propertyId
+    rentCurrency
     startDate
     tenant {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -45,10 +70,12 @@ export const createContract = /* GraphQL */ `mutation CreateContract(
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
+    tenantId
     updatedAt
     __typename
   }
@@ -57,6 +84,56 @@ export const createContract = /* GraphQL */ `mutation CreateContract(
   APITypes.CreateContractMutationVariables,
   APITypes.CreateContractMutation
 >;
+export const createContractRequests = /* GraphQL */ `mutation CreateContractRequests(
+  $condition: ModelContractRequestsConditionInput
+  $input: CreateContractRequestsInput!
+) {
+  createContractRequests(condition: $condition, input: $input) {
+    contract {
+      contractDescription
+      contractPdf
+      createdAt
+      endDate
+      id
+      monthlyRent
+      propertyId
+      rentCurrency
+      startDate
+      tenantId
+      updatedAt
+      __typename
+    }
+    contractId
+    createdAt
+    id
+    responseText
+    status
+    tenant {
+      birthday
+      city
+      country
+      createdAt
+      displayName
+      email
+      gender
+      givenName
+      lastName
+      phoneNumber
+      street
+      updatedAt
+      zip
+      __typename
+    }
+    tenantId
+    type
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateContractRequestsMutationVariables,
+  APITypes.CreateContractRequestsMutation
+>;
 export const createIncident = /* GraphQL */ `mutation CreateIncident(
   $condition: ModelIncidentConditionInput
   $input: CreateIncidentInput!
@@ -64,12 +141,15 @@ export const createIncident = /* GraphQL */ `mutation CreateIncident(
   createIncident(condition: $condition, input: $input) {
     contract {
       contractDescription
+      contractPdf
       createdAt
       endDate
       id
       monthlyRent
       propertyId
+      rentCurrency
       startDate
+      tenantId
       updatedAt
       __typename
     }
@@ -79,6 +159,7 @@ export const createIncident = /* GraphQL */ `mutation CreateIncident(
     description
     id
     status
+    title
     updatedAt
     __typename
   }
@@ -92,25 +173,27 @@ export const createProperty = /* GraphQL */ `mutation CreateProperty(
   $input: CreatePropertyInput!
 ) {
   createProperty(condition: $condition, input: $input) {
-    activeContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    city
+    contracts {
+      nextToken
       __typename
     }
+    country
     createdAt
+    description
+    displayName
+    floor
+    hasBalcony
+    hasElevator
+    hasParking
+    hasSaferoom
     id
     landlordId
-    propertyAddress
-    propertyDescription
+    numberOfRooms
     propertyLandlord {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -118,13 +201,16 @@ export const createProperty = /* GraphQL */ `mutation CreateProperty(
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
-    propertySize
-    propertyType
+    size
+    street
+    type
     updatedAt
+    zip
     __typename
   }
 }
@@ -137,8 +223,13 @@ export const createUserProfile = /* GraphQL */ `mutation CreateUserProfile(
   $input: CreateUserProfileInput!
 ) {
   createUserProfile(condition: $condition, input: $input) {
-    address
     birthday
+    city
+    contractRequests {
+      nextToken
+      __typename
+    }
+    country
     createdAt
     displayName
     email
@@ -150,19 +241,13 @@ export const createUserProfile = /* GraphQL */ `mutation CreateUserProfile(
       nextToken
       __typename
     }
-    tenantContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    street
+    tenantContracts {
+      nextToken
       __typename
     }
-    tenantId
     updatedAt
+    zip
     __typename
   }
 }
@@ -176,8 +261,21 @@ export const deleteContract = /* GraphQL */ `mutation DeleteContract(
 ) {
   deleteContract(condition: $condition, input: $input) {
     contractDescription
+    contractPdf
+    contractRequests {
+      nextToken
+      __typename
+    }
     createdAt
     endDate
+    extensionOption {
+      extension
+      extensionPeriod
+      extensionPeriodType
+      extensionPrice
+      extensionPriceCurrency
+      __typename
+    }
     id
     incidents {
       nextToken
@@ -185,21 +283,33 @@ export const deleteContract = /* GraphQL */ `mutation DeleteContract(
     }
     monthlyRent
     property {
+      city
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
-      propertySize
-      propertyType
+      numberOfRooms
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
     propertyId
+    rentCurrency
     startDate
     tenant {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -207,10 +317,12 @@ export const deleteContract = /* GraphQL */ `mutation DeleteContract(
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
+    tenantId
     updatedAt
     __typename
   }
@@ -219,6 +331,56 @@ export const deleteContract = /* GraphQL */ `mutation DeleteContract(
   APITypes.DeleteContractMutationVariables,
   APITypes.DeleteContractMutation
 >;
+export const deleteContractRequests = /* GraphQL */ `mutation DeleteContractRequests(
+  $condition: ModelContractRequestsConditionInput
+  $input: DeleteContractRequestsInput!
+) {
+  deleteContractRequests(condition: $condition, input: $input) {
+    contract {
+      contractDescription
+      contractPdf
+      createdAt
+      endDate
+      id
+      monthlyRent
+      propertyId
+      rentCurrency
+      startDate
+      tenantId
+      updatedAt
+      __typename
+    }
+    contractId
+    createdAt
+    id
+    responseText
+    status
+    tenant {
+      birthday
+      city
+      country
+      createdAt
+      displayName
+      email
+      gender
+      givenName
+      lastName
+      phoneNumber
+      street
+      updatedAt
+      zip
+      __typename
+    }
+    tenantId
+    type
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteContractRequestsMutationVariables,
+  APITypes.DeleteContractRequestsMutation
+>;
 export const deleteIncident = /* GraphQL */ `mutation DeleteIncident(
   $condition: ModelIncidentConditionInput
   $input: DeleteIncidentInput!
@@ -226,12 +388,15 @@ export const deleteIncident = /* GraphQL */ `mutation DeleteIncident(
   deleteIncident(condition: $condition, input: $input) {
     contract {
       contractDescription
+      contractPdf
       createdAt
       endDate
       id
       monthlyRent
       propertyId
+      rentCurrency
       startDate
+      tenantId
       updatedAt
       __typename
     }
@@ -241,6 +406,7 @@ export const deleteIncident = /* GraphQL */ `mutation DeleteIncident(
     description
     id
     status
+    title
     updatedAt
     __typename
   }
@@ -254,25 +420,27 @@ export const deleteProperty = /* GraphQL */ `mutation DeleteProperty(
   $input: DeletePropertyInput!
 ) {
   deleteProperty(condition: $condition, input: $input) {
-    activeContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    city
+    contracts {
+      nextToken
       __typename
     }
+    country
     createdAt
+    description
+    displayName
+    floor
+    hasBalcony
+    hasElevator
+    hasParking
+    hasSaferoom
     id
     landlordId
-    propertyAddress
-    propertyDescription
+    numberOfRooms
     propertyLandlord {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -280,13 +448,16 @@ export const deleteProperty = /* GraphQL */ `mutation DeleteProperty(
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
-    propertySize
-    propertyType
+    size
+    street
+    type
     updatedAt
+    zip
     __typename
   }
 }
@@ -299,8 +470,13 @@ export const deleteUserProfile = /* GraphQL */ `mutation DeleteUserProfile(
   $input: DeleteUserProfileInput!
 ) {
   deleteUserProfile(condition: $condition, input: $input) {
-    address
     birthday
+    city
+    contractRequests {
+      nextToken
+      __typename
+    }
+    country
     createdAt
     displayName
     email
@@ -312,19 +488,13 @@ export const deleteUserProfile = /* GraphQL */ `mutation DeleteUserProfile(
       nextToken
       __typename
     }
-    tenantContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    street
+    tenantContracts {
+      nextToken
       __typename
     }
-    tenantId
     updatedAt
+    zip
     __typename
   }
 }
@@ -338,8 +508,21 @@ export const updateContract = /* GraphQL */ `mutation UpdateContract(
 ) {
   updateContract(condition: $condition, input: $input) {
     contractDescription
+    contractPdf
+    contractRequests {
+      nextToken
+      __typename
+    }
     createdAt
     endDate
+    extensionOption {
+      extension
+      extensionPeriod
+      extensionPeriodType
+      extensionPrice
+      extensionPriceCurrency
+      __typename
+    }
     id
     incidents {
       nextToken
@@ -347,21 +530,33 @@ export const updateContract = /* GraphQL */ `mutation UpdateContract(
     }
     monthlyRent
     property {
+      city
+      country
       createdAt
+      description
+      displayName
+      floor
+      hasBalcony
+      hasElevator
+      hasParking
+      hasSaferoom
       id
       landlordId
-      propertyAddress
-      propertyDescription
-      propertySize
-      propertyType
+      numberOfRooms
+      size
+      street
+      type
       updatedAt
+      zip
       __typename
     }
     propertyId
+    rentCurrency
     startDate
     tenant {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -369,10 +564,12 @@ export const updateContract = /* GraphQL */ `mutation UpdateContract(
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
+    tenantId
     updatedAt
     __typename
   }
@@ -381,6 +578,56 @@ export const updateContract = /* GraphQL */ `mutation UpdateContract(
   APITypes.UpdateContractMutationVariables,
   APITypes.UpdateContractMutation
 >;
+export const updateContractRequests = /* GraphQL */ `mutation UpdateContractRequests(
+  $condition: ModelContractRequestsConditionInput
+  $input: UpdateContractRequestsInput!
+) {
+  updateContractRequests(condition: $condition, input: $input) {
+    contract {
+      contractDescription
+      contractPdf
+      createdAt
+      endDate
+      id
+      monthlyRent
+      propertyId
+      rentCurrency
+      startDate
+      tenantId
+      updatedAt
+      __typename
+    }
+    contractId
+    createdAt
+    id
+    responseText
+    status
+    tenant {
+      birthday
+      city
+      country
+      createdAt
+      displayName
+      email
+      gender
+      givenName
+      lastName
+      phoneNumber
+      street
+      updatedAt
+      zip
+      __typename
+    }
+    tenantId
+    type
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateContractRequestsMutationVariables,
+  APITypes.UpdateContractRequestsMutation
+>;
 export const updateIncident = /* GraphQL */ `mutation UpdateIncident(
   $condition: ModelIncidentConditionInput
   $input: UpdateIncidentInput!
@@ -388,12 +635,15 @@ export const updateIncident = /* GraphQL */ `mutation UpdateIncident(
   updateIncident(condition: $condition, input: $input) {
     contract {
       contractDescription
+      contractPdf
       createdAt
       endDate
       id
       monthlyRent
       propertyId
+      rentCurrency
       startDate
+      tenantId
       updatedAt
       __typename
     }
@@ -403,6 +653,7 @@ export const updateIncident = /* GraphQL */ `mutation UpdateIncident(
     description
     id
     status
+    title
     updatedAt
     __typename
   }
@@ -416,25 +667,27 @@ export const updateProperty = /* GraphQL */ `mutation UpdateProperty(
   $input: UpdatePropertyInput!
 ) {
   updateProperty(condition: $condition, input: $input) {
-    activeContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    city
+    contracts {
+      nextToken
       __typename
     }
+    country
     createdAt
+    description
+    displayName
+    floor
+    hasBalcony
+    hasElevator
+    hasParking
+    hasSaferoom
     id
     landlordId
-    propertyAddress
-    propertyDescription
+    numberOfRooms
     propertyLandlord {
-      address
       birthday
+      city
+      country
       createdAt
       displayName
       email
@@ -442,13 +695,16 @@ export const updateProperty = /* GraphQL */ `mutation UpdateProperty(
       givenName
       lastName
       phoneNumber
-      tenantId
+      street
       updatedAt
+      zip
       __typename
     }
-    propertySize
-    propertyType
+    size
+    street
+    type
     updatedAt
+    zip
     __typename
   }
 }
@@ -461,8 +717,13 @@ export const updateUserProfile = /* GraphQL */ `mutation UpdateUserProfile(
   $input: UpdateUserProfileInput!
 ) {
   updateUserProfile(condition: $condition, input: $input) {
-    address
     birthday
+    city
+    contractRequests {
+      nextToken
+      __typename
+    }
+    country
     createdAt
     displayName
     email
@@ -474,19 +735,13 @@ export const updateUserProfile = /* GraphQL */ `mutation UpdateUserProfile(
       nextToken
       __typename
     }
-    tenantContract {
-      contractDescription
-      createdAt
-      endDate
-      id
-      monthlyRent
-      propertyId
-      startDate
-      updatedAt
+    street
+    tenantContracts {
+      nextToken
       __typename
     }
-    tenantId
     updatedAt
+    zip
     __typename
   }
 }

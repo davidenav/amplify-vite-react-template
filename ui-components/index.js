@@ -4,5 +4,7 @@ export { default as PropertyCreateForm } from "./PropertyCreateForm";
 export { default as PropertyUpdateForm } from "./PropertyUpdateForm";
 export { default as ContractCreateForm } from "./ContractCreateForm";
 export { default as ContractUpdateForm } from "./ContractUpdateForm";
+export { default as ContractRequestsCreateForm } from "./ContractRequestsCreateForm";
+export { default as ContractRequestsUpdateForm } from "./ContractRequestsUpdateForm";
 export { default as IncidentCreateForm } from "./IncidentCreateForm";
 export { default as IncidentUpdateForm } from "./IncidentUpdateForm";
