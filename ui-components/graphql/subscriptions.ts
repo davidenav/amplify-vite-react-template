@@ -6,6 +6,7 @@ export const onCreateContract = /* GraphQL */ `
   subscription OnCreateContract($filter: ModelSubscriptionContractFilterInput) {
     onCreateContract(filter: $filter) {
       contractDescription
+      contractPdf
       contractRequests {
         nextToken
         __typename
@@ -26,6 +27,7 @@ export const onCreateContract = /* GraphQL */ `
         __typename
       }
       monthlyRent
+      paymentDayOfMonth
       property {
         city
         country
@@ -79,10 +81,12 @@ export const onCreateContractRequests = /* GraphQL */ `
     onCreateContractRequests(filter: $filter) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -123,10 +127,12 @@ export const onCreateIncident = /* GraphQL */ `
     onCreateIncident(filter: $filter) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -140,6 +146,7 @@ export const onCreateIncident = /* GraphQL */ `
       description
       id
       status
+      title
       updatedAt
       __typename
     }
@@ -228,6 +235,7 @@ export const onDeleteContract = /* GraphQL */ `
   subscription OnDeleteContract($filter: ModelSubscriptionContractFilterInput) {
     onDeleteContract(filter: $filter) {
       contractDescription
+      contractPdf
       contractRequests {
         nextToken
         __typename
@@ -248,6 +256,7 @@ export const onDeleteContract = /* GraphQL */ `
         __typename
       }
       monthlyRent
+      paymentDayOfMonth
       property {
         city
         country
@@ -301,10 +310,12 @@ export const onDeleteContractRequests = /* GraphQL */ `
     onDeleteContractRequests(filter: $filter) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -345,10 +356,12 @@ export const onDeleteIncident = /* GraphQL */ `
     onDeleteIncident(filter: $filter) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -362,6 +375,7 @@ export const onDeleteIncident = /* GraphQL */ `
       description
       id
       status
+      title
       updatedAt
       __typename
     }
@@ -450,6 +464,7 @@ export const onUpdateContract = /* GraphQL */ `
   subscription OnUpdateContract($filter: ModelSubscriptionContractFilterInput) {
     onUpdateContract(filter: $filter) {
       contractDescription
+      contractPdf
       contractRequests {
         nextToken
         __typename
@@ -470,6 +485,7 @@ export const onUpdateContract = /* GraphQL */ `
         __typename
       }
       monthlyRent
+      paymentDayOfMonth
       property {
         city
         country
@@ -523,10 +539,12 @@ export const onUpdateContractRequests = /* GraphQL */ `
     onUpdateContractRequests(filter: $filter) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -567,10 +585,12 @@ export const onUpdateIncident = /* GraphQL */ `
     onUpdateIncident(filter: $filter) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -584,6 +604,7 @@ export const onUpdateIncident = /* GraphQL */ `
       description
       id
       status
+      title
       updatedAt
       __typename
     }

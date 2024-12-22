@@ -6,6 +6,7 @@ export const getContract = /* GraphQL */ `
   query GetContract($id: ID!) {
     getContract(id: $id) {
       contractDescription
+      contractPdf
       contractRequests {
         nextToken
         __typename
@@ -26,6 +27,7 @@ export const getContract = /* GraphQL */ `
         __typename
       }
       monthlyRent
+      paymentDayOfMonth
       property {
         city
         country
@@ -77,10 +79,12 @@ export const getContractRequests = /* GraphQL */ `
     getContractRequests(id: $id) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -121,10 +125,12 @@ export const getIncident = /* GraphQL */ `
     getIncident(id: $id) {
       contract {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -138,6 +144,7 @@ export const getIncident = /* GraphQL */ `
       description
       id
       status
+      title
       updatedAt
       __typename
     }
@@ -256,10 +263,12 @@ export const listContracts = /* GraphQL */ `
     listContracts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         contractDescription
+        contractPdf
         createdAt
         endDate
         id
         monthlyRent
+        paymentDayOfMonth
         propertyId
         rentCurrency
         startDate
@@ -286,6 +295,7 @@ export const listIncidents = /* GraphQL */ `
         description
         id
         status
+        title
         updatedAt
         __typename
       }

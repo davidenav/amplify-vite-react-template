@@ -32,6 +32,7 @@ export const getContract = /* GraphQL */ `query GetContract($id: ID!) {
       __typename
     }
     monthlyRent
+    paymentDayOfMonth
     property {
       city
       country
@@ -90,6 +91,7 @@ export const getContractRequests = /* GraphQL */ `query GetContractRequests($id:
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -137,6 +139,7 @@ export const getIncident = /* GraphQL */ `query GetIncident($id: ID!) {
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -278,6 +281,7 @@ export const listContracts = /* GraphQL */ `query ListContracts(
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate

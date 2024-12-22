@@ -1,7 +1,13 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getIncident } from "./graphql/queries";
@@ -20,10 +26,12 @@ export default function IncidentUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    title: "",
     description: "",
     status: "",
     date: "",
   };
+  const [title, setTitle] = React.useState(initialValues.title);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
@@ -34,6 +42,7 @@ export default function IncidentUpdateForm(props) {
     const cleanValues = incidentRecord
       ? { ...initialValues, ...incidentRecord }
       : initialValues;
+    setTitle(cleanValues.title);
     setDescription(cleanValues.description);
     setStatus(cleanValues.status);
     setDate(cleanValues.date);
@@ -56,9 +65,10 @@ export default function IncidentUpdateForm(props) {
   }, [idProp, incidentModelProp]);
   React.useEffect(resetStateValues, [incidentRecord]);
   const validations = {
-    description: [],
+    title: [{ type: "Required" }],
+    description: [{ type: "Required" }],
     status: [],
-    date: [],
+    date: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -103,9 +113,10 @@ export default function IncidentUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          description: description ?? null,
+          title,
+          description,
           status: status ?? null,
-          date: date ?? null,
+          date,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -158,14 +169,42 @@ export default function IncidentUpdateForm(props) {
       {...rest}
     >
       <TextField
+        label="Title"
+        isRequired={true}
+        isReadOnly={false}
+        value={title}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              title: value,
+              description,
+              status,
+              date,
+            };
+            const result = onChange(modelFields);
+            value = result?.title ?? value;
+          }
+          if (errors.title?.hasError) {
+            runValidationTasks("title", value);
+          }
+          setTitle(value);
+        }}
+        onBlur={() => runValidationTasks("title", title)}
+        errorMessage={errors.title?.errorMessage}
+        hasError={errors.title?.hasError}
+        {...getOverrideProps(overrides, "title")}
+      ></TextField>
+      <TextField
         label="Description"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={description}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              title,
               description: value,
               status,
               date,
@@ -183,15 +222,16 @@ export default function IncidentUpdateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextField>
-      <TextField
+      <SelectField
         label="Status"
-        isRequired={false}
-        isReadOnly={false}
+        placeholder="Please select an option"
+        isDisabled={false}
         value={status}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              title,
               description,
               status: value,
               date,
@@ -208,10 +248,21 @@ export default function IncidentUpdateForm(props) {
         errorMessage={errors.status?.errorMessage}
         hasError={errors.status?.hasError}
         {...getOverrideProps(overrides, "status")}
-      ></TextField>
+      >
+        <option
+          children="Open"
+          value="Open"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Closed"
+          value="Closed"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+      </SelectField>
       <TextField
         label="Date"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="datetime-local"
         value={date && convertToLocal(new Date(date))}
@@ -220,6 +271,7 @@ export default function IncidentUpdateForm(props) {
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
+              title,
               description,
               status,
               date: value,

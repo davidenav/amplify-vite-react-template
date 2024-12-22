@@ -67,9 +67,9 @@ export default function UserProfileCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    displayName: [],
-    givenName: [],
-    lastName: [],
+    displayName: [{ type: "Required" }],
+    givenName: [{ type: "Required" }],
+    lastName: [{ type: "Required" }],
     birthday: [],
     email: [{ type: "Required" }, { type: "Email" }],
     phoneNumber: [{ type: "Phone" }],
@@ -171,7 +171,7 @@ export default function UserProfileCreateForm(props) {
     >
       <TextField
         label="Display name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={displayName}
         onChange={(e) => {
@@ -205,7 +205,7 @@ export default function UserProfileCreateForm(props) {
       ></TextField>
       <TextField
         label="Given name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={givenName}
         onChange={(e) => {
@@ -239,7 +239,7 @@ export default function UserProfileCreateForm(props) {
       ></TextField>
       <TextField
         label="Last name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={lastName}
         onChange={(e) => {

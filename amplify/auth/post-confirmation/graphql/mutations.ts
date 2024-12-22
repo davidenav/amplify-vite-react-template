@@ -35,6 +35,7 @@ export const createContract = /* GraphQL */ `mutation CreateContract(
       __typename
     }
     monthlyRent
+    paymentDayOfMonth
     property {
       city
       country
@@ -96,6 +97,7 @@ export const createContractRequests = /* GraphQL */ `mutation CreateContractRequ
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -146,6 +148,7 @@ export const createIncident = /* GraphQL */ `mutation CreateIncident(
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -282,6 +285,7 @@ export const deleteContract = /* GraphQL */ `mutation DeleteContract(
       __typename
     }
     monthlyRent
+    paymentDayOfMonth
     property {
       city
       country
@@ -343,6 +347,7 @@ export const deleteContractRequests = /* GraphQL */ `mutation DeleteContractRequ
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -393,6 +398,7 @@ export const deleteIncident = /* GraphQL */ `mutation DeleteIncident(
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -529,6 +535,7 @@ export const updateContract = /* GraphQL */ `mutation UpdateContract(
       __typename
     }
     monthlyRent
+    paymentDayOfMonth
     property {
       city
       country
@@ -590,6 +597,7 @@ export const updateContractRequests = /* GraphQL */ `mutation UpdateContractRequ
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -640,6 +648,7 @@ export const updateIncident = /* GraphQL */ `mutation UpdateIncident(
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate

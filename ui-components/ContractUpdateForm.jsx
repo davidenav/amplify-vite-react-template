@@ -29,19 +29,27 @@ export default function ContractUpdateForm(props) {
     startDate: "",
     endDate: "",
     monthlyRent: "",
+    paymentDayOfMonth: "",
     rentCurrency: "",
     contractDescription: "",
+    contractPdf: "",
   };
   const [startDate, setStartDate] = React.useState(initialValues.startDate);
   const [endDate, setEndDate] = React.useState(initialValues.endDate);
   const [monthlyRent, setMonthlyRent] = React.useState(
     initialValues.monthlyRent
   );
+  const [paymentDayOfMonth, setPaymentDayOfMonth] = React.useState(
+    initialValues.paymentDayOfMonth
+  );
   const [rentCurrency, setRentCurrency] = React.useState(
     initialValues.rentCurrency
   );
   const [contractDescription, setContractDescription] = React.useState(
     initialValues.contractDescription
+  );
+  const [contractPdf, setContractPdf] = React.useState(
+    initialValues.contractPdf
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -51,8 +59,10 @@ export default function ContractUpdateForm(props) {
     setStartDate(cleanValues.startDate);
     setEndDate(cleanValues.endDate);
     setMonthlyRent(cleanValues.monthlyRent);
+    setPaymentDayOfMonth(cleanValues.paymentDayOfMonth);
     setRentCurrency(cleanValues.rentCurrency);
     setContractDescription(cleanValues.contractDescription);
+    setContractPdf(cleanValues.contractPdf);
     setErrors({});
   };
   const [contractRecord, setContractRecord] = React.useState(contractModelProp);
@@ -72,11 +82,13 @@ export default function ContractUpdateForm(props) {
   }, [idProp, contractModelProp]);
   React.useEffect(resetStateValues, [contractRecord]);
   const validations = {
-    startDate: [],
-    endDate: [],
-    monthlyRent: [],
+    startDate: [{ type: "Required" }],
+    endDate: [{ type: "Required" }],
+    monthlyRent: [{ type: "Required" }],
+    paymentDayOfMonth: [{ type: "Required" }],
     rentCurrency: [],
     contractDescription: [],
+    contractPdf: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -104,11 +116,13 @@ export default function ContractUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          startDate: startDate ?? null,
-          endDate: endDate ?? null,
-          monthlyRent: monthlyRent ?? null,
+          startDate,
+          endDate,
+          monthlyRent,
+          paymentDayOfMonth,
           rentCurrency: rentCurrency ?? null,
           contractDescription: contractDescription ?? null,
+          contractPdf,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -162,7 +176,7 @@ export default function ContractUpdateForm(props) {
     >
       <TextField
         label="Start date"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="date"
         value={startDate}
@@ -173,8 +187,10 @@ export default function ContractUpdateForm(props) {
               startDate: value,
               endDate,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.startDate ?? value;
@@ -191,7 +207,7 @@ export default function ContractUpdateForm(props) {
       ></TextField>
       <TextField
         label="End date"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="date"
         value={endDate}
@@ -202,8 +218,10 @@ export default function ContractUpdateForm(props) {
               startDate,
               endDate: value,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.endDate ?? value;
@@ -220,7 +238,7 @@ export default function ContractUpdateForm(props) {
       ></TextField>
       <TextField
         label="Monthly rent"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -234,8 +252,10 @@ export default function ContractUpdateForm(props) {
               startDate,
               endDate,
               monthlyRent: value,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.monthlyRent ?? value;
@@ -250,6 +270,42 @@ export default function ContractUpdateForm(props) {
         hasError={errors.monthlyRent?.hasError}
         {...getOverrideProps(overrides, "monthlyRent")}
       ></TextField>
+      <TextField
+        label="Payment day of month"
+        isRequired={true}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={paymentDayOfMonth}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              startDate,
+              endDate,
+              monthlyRent,
+              paymentDayOfMonth: value,
+              rentCurrency,
+              contractDescription,
+              contractPdf,
+            };
+            const result = onChange(modelFields);
+            value = result?.paymentDayOfMonth ?? value;
+          }
+          if (errors.paymentDayOfMonth?.hasError) {
+            runValidationTasks("paymentDayOfMonth", value);
+          }
+          setPaymentDayOfMonth(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("paymentDayOfMonth", paymentDayOfMonth)
+        }
+        errorMessage={errors.paymentDayOfMonth?.errorMessage}
+        hasError={errors.paymentDayOfMonth?.hasError}
+        {...getOverrideProps(overrides, "paymentDayOfMonth")}
+      ></TextField>
       <SelectField
         label="Rent currency"
         placeholder="Please select an option"
@@ -262,8 +318,10 @@ export default function ContractUpdateForm(props) {
               startDate,
               endDate,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency: value,
               contractDescription,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.rentCurrency ?? value;
@@ -306,8 +364,10 @@ export default function ContractUpdateForm(props) {
               startDate,
               endDate,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription: value,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.contractDescription ?? value;
@@ -323,6 +383,36 @@ export default function ContractUpdateForm(props) {
         errorMessage={errors.contractDescription?.errorMessage}
         hasError={errors.contractDescription?.hasError}
         {...getOverrideProps(overrides, "contractDescription")}
+      ></TextField>
+      <TextField
+        label="Contract pdf"
+        isRequired={true}
+        isReadOnly={false}
+        value={contractPdf}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              startDate,
+              endDate,
+              monthlyRent,
+              paymentDayOfMonth,
+              rentCurrency,
+              contractDescription,
+              contractPdf: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.contractPdf ?? value;
+          }
+          if (errors.contractPdf?.hasError) {
+            runValidationTasks("contractPdf", value);
+          }
+          setContractPdf(value);
+        }}
+        onBlur={() => runValidationTasks("contractPdf", contractPdf)}
+        errorMessage={errors.contractPdf?.errorMessage}
+        hasError={errors.contractPdf?.hasError}
+        {...getOverrideProps(overrides, "contractPdf")}
       ></TextField>
       <Flex
         justifyContent="space-between"

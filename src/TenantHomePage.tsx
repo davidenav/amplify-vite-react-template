@@ -1,17 +1,43 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
+import { SelectionSet } from "aws-amplify/api";
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "../amplify/data/resource";
 import logo from './assets/images/lease.png';
+import TenantManageContract from './TenantManageContract';
+import TenantAcceptContract from './TenantAcceptContract';
 
 interface TenantHomePageProps {
   signOut: () => void;
   userEmail: string;
 }
 
+export const tenantSelectionSet = ['email', 'tenantContracts.*', 'contractRequests.id', 'contractRequests.status', 
+    'contractRequests.type', 'contractRequests.contract.*'] as const;
+export type tenantType = SelectionSet<Schema['UserProfile']['type'], typeof tenantSelectionSet>;
+
 const LandlordHomePage: React.FC<TenantHomePageProps> = ({ signOut, userEmail }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [tenant, setTenant] = useState<tenantType | null>(null);
+  const client = generateClient<Schema>();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    userEmail// get contract
+    const fetchContracts = async () => {
+        try {
+            const contractData = await client.models.UserProfile.get({ 
+                email: userEmail
+            },
+            { selectionSet: tenantSelectionSet });
+            if (contractData.data) {
+                setTenant(contractData.data);
+            }
+        } catch (error) {
+            console.error('Error fetching teants data:', error);
+        }
+        };
+
+        fetchContracts();
   }, []);
 
   return (
@@ -30,7 +56,7 @@ const LandlordHomePage: React.FC<TenantHomePageProps> = ({ signOut, userEmail })
         {menuOpen && (
           <div style={styles.menu}>
             <button onClick={signOut} className="menuItem" style={styles.menuItem}>Sign out</button>
-            <Link to="/tenant/incidents" className="menuItem" style={styles.menuItem} onClick={() => setMenuOpen(false)}>My Incidents</Link>
+            <Link to="/tenant" className="menuItem" style={styles.menuItem} onClick={() => setMenuOpen(false)}>Home</Link>
           </div>
         )}
       </header>
@@ -38,6 +64,47 @@ const LandlordHomePage: React.FC<TenantHomePageProps> = ({ signOut, userEmail })
         <Routes>
             <Route path="/*" element={
                 <>
+                    <section style={styles.section}>
+                        <h2>My Contracts</h2>
+                        <ul style={styles.list}>
+                            {
+                                tenant?.tenantContracts
+                                .sort((a, b) => new Date(a.startDate ?? '').getTime() - new Date(b.startDate ?? '').getTime())
+                                .map((contract, index) => {
+                                    const isActive = new Date(contract.startDate ?? '') <= new Date() && new Date(contract.endDate ?? '') >= new Date();
+                                    return (
+                                        <li key={index} style={{ ...styles.listItem, backgroundColor: isActive ? 'lightgreen' : '#ffffff' }} 
+                                            onClick={() => navigate(`/tenant/contract`, { state: { id: contract.id } })}>
+                                            <div>
+                                                <strong>Start Date:</strong> {contract.startDate} <br />
+                                                <strong>End Date:</strong> {contract.endDate}
+                                            </div>
+                                        </li>
+                                    );
+                                })
+                            }
+                        </ul>
+                    </section>
+                    <section style={styles.section}>
+                        <h2>My Contract Requests</h2>
+                        <ul style={styles.list}>
+                            {tenant?.contractRequests.filter((request) => request.status === 'Pending' && request.type === 'New')
+                                .filter((request) => request.status === 'Pending' && request.type === 'New')
+                                .sort((a, b) => new Date(a.contract.startDate ?? '').getTime() - new Date(b.contract.startDate ?? '').getTime())
+                                .map((request, index) => {
+                                    const contract = request.contract;
+                                    return (
+                                        <li key={index} style={{ ...styles.listItem, backgroundColor: '#ffffff' }} 
+                                            onClick={() => navigate(`/tenant/contract/approve`, { state: { id: request.id } })}>
+                                            <div>
+                                                <strong>Start Date:</strong> {contract.startDate} <br />
+                                                <strong>End Date:</strong> {contract.endDate}
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                        </ul>
+                    </section>
                    <section style={styles.section}>
                         <h2>Open Incidents</h2>
                         <ul style={styles.list}>
@@ -45,6 +112,8 @@ const LandlordHomePage: React.FC<TenantHomePageProps> = ({ signOut, userEmail })
                         </ul>
                     </section></>
             } />
+            <Route path="/contract/*" element={< TenantManageContract />} />
+            <Route path="/contract/approve/*" element={< TenantAcceptContract />} />
         </Routes>
       </main>
     </>
@@ -128,9 +197,22 @@ const styles = {
   },
   list: {
     listStyleType: 'none' as 'none',
-    padding: '0',
-    margin: '0',
-  },
+    padding: '10px',
+    margin: '20px 0',
+    backgroundColor: 'transparent',
+    border: 'none', // Remove the border
+    },
+    listItem: {
+        padding: '15px 20px',
+        marginBottom: '10px',
+        borderRadius: '8px',
+        fontSize: '18px',
+        color: '#333',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
 };
 
 export default LandlordHomePage;

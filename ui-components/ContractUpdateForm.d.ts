@@ -20,15 +20,19 @@ export declare type ContractUpdateFormInputValues = {
     startDate?: string;
     endDate?: string;
     monthlyRent?: number;
+    paymentDayOfMonth?: number;
     rentCurrency?: string;
     contractDescription?: string;
+    contractPdf?: string;
 };
 export declare type ContractUpdateFormValidationValues = {
     startDate?: ValidationFunction<string>;
     endDate?: ValidationFunction<string>;
     monthlyRent?: ValidationFunction<number>;
+    paymentDayOfMonth?: ValidationFunction<number>;
     rentCurrency?: ValidationFunction<string>;
     contractDescription?: ValidationFunction<string>;
+    contractPdf?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ContractUpdateFormOverridesProps = {
@@ -36,8 +40,10 @@ export declare type ContractUpdateFormOverridesProps = {
     startDate?: PrimitiveOverrideProps<TextFieldProps>;
     endDate?: PrimitiveOverrideProps<TextFieldProps>;
     monthlyRent?: PrimitiveOverrideProps<TextFieldProps>;
+    paymentDayOfMonth?: PrimitiveOverrideProps<TextFieldProps>;
     rentCurrency?: PrimitiveOverrideProps<SelectFieldProps>;
     contractDescription?: PrimitiveOverrideProps<TextFieldProps>;
+    contractPdf?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ContractUpdateFormProps = React.PropsWithChildren<{
     overrides?: ContractUpdateFormOverridesProps | undefined | null;

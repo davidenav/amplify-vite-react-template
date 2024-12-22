@@ -104,15 +104,15 @@ export default function PropertyUpdateForm(props) {
   }, [idProp, propertyModelProp]);
   React.useEffect(resetStateValues, [propertyRecord]);
   const validations = {
-    displayName: [],
-    street: [],
-    city: [],
-    zip: [],
-    country: [],
+    displayName: [{ type: "Required" }],
+    street: [{ type: "Required" }],
+    city: [{ type: "Required" }],
+    zip: [{ type: "Required" }],
+    country: [{ type: "Required" }],
     type: [],
-    size: [],
-    numberOfRooms: [],
-    floor: [],
+    size: [{ type: "Required" }],
+    numberOfRooms: [{ type: "Required" }],
+    floor: [{ type: "Required" }],
     hasElevator: [],
     hasBalcony: [],
     hasParking: [],
@@ -145,15 +145,15 @@ export default function PropertyUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          displayName: displayName ?? null,
-          street: street ?? null,
-          city: city ?? null,
-          zip: zip ?? null,
-          country: country ?? null,
+          displayName,
+          street,
+          city,
+          zip,
+          country,
           type: type ?? null,
-          size: size ?? null,
-          numberOfRooms: numberOfRooms ?? null,
-          floor: floor ?? null,
+          size,
+          numberOfRooms,
+          floor,
           hasElevator: hasElevator ?? null,
           hasBalcony: hasBalcony ?? null,
           hasParking: hasParking ?? null,
@@ -212,7 +212,7 @@ export default function PropertyUpdateForm(props) {
     >
       <TextField
         label="Display name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={displayName}
         onChange={(e) => {
@@ -249,7 +249,7 @@ export default function PropertyUpdateForm(props) {
       ></TextField>
       <TextField
         label="Street"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={street}
         onChange={(e) => {
@@ -286,7 +286,7 @@ export default function PropertyUpdateForm(props) {
       ></TextField>
       <TextField
         label="City"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={city}
         onChange={(e) => {
@@ -323,7 +323,7 @@ export default function PropertyUpdateForm(props) {
       ></TextField>
       <TextField
         label="Zip"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={zip}
         onChange={(e) => {
@@ -360,7 +360,7 @@ export default function PropertyUpdateForm(props) {
       ></TextField>
       <TextField
         label="Country"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={country}
         onChange={(e) => {
@@ -450,7 +450,7 @@ export default function PropertyUpdateForm(props) {
       </SelectField>
       <TextField
         label="Size"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -491,7 +491,7 @@ export default function PropertyUpdateForm(props) {
       ></TextField>
       <TextField
         label="Number of rooms"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -532,7 +532,7 @@ export default function PropertyUpdateForm(props) {
       ></TextField>
       <TextField
         label="Floor"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"

@@ -33,6 +33,7 @@ export default function ContractCreateForm(props) {
     startDate: "",
     endDate: "",
     monthlyRent: "",
+    paymentDayOfMonth: "",
     rentCurrency: "",
     contractDescription: "",
     contractPdf: "",
@@ -41,6 +42,9 @@ export default function ContractCreateForm(props) {
   const [endDate, setEndDate] = React.useState(initialValues.endDate);
   const [monthlyRent, setMonthlyRent] = React.useState(
     initialValues.monthlyRent
+  );
+  const [paymentDayOfMonth, setPaymentDayOfMonth] = React.useState(
+    initialValues.paymentDayOfMonth
   );
   const [rentCurrency, setRentCurrency] = React.useState(
     initialValues.rentCurrency
@@ -56,18 +60,20 @@ export default function ContractCreateForm(props) {
     setStartDate(initialValues.startDate);
     setEndDate(initialValues.endDate);
     setMonthlyRent(initialValues.monthlyRent);
+    setPaymentDayOfMonth(initialValues.paymentDayOfMonth);
     setRentCurrency(initialValues.rentCurrency);
     setContractDescription(initialValues.contractDescription);
     setContractPdf(initialValues.contractPdf);
     setErrors({});
   };
   const validations = {
-    startDate: [],
-    endDate: [],
-    monthlyRent: [],
+    startDate: [{ type: "Required" }],
+    endDate: [{ type: "Required" }],
+    monthlyRent: [{ type: "Required" }],
+    paymentDayOfMonth: [{ type: "Required" }],
     rentCurrency: [],
     contractDescription: [],
-    contractPdf: [],
+    contractPdf: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -98,6 +104,7 @@ export default function ContractCreateForm(props) {
           startDate,
           endDate,
           monthlyRent,
+          paymentDayOfMonth,
           rentCurrency,
           contractDescription,
           contractPdf,
@@ -157,7 +164,7 @@ export default function ContractCreateForm(props) {
     >
       <TextField
         label="Start date"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="date"
         value={startDate}
@@ -168,6 +175,7 @@ export default function ContractCreateForm(props) {
               startDate: value,
               endDate,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription,
               contractPdf,
@@ -187,7 +195,7 @@ export default function ContractCreateForm(props) {
       ></TextField>
       <TextField
         label="End date"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="date"
         value={endDate}
@@ -198,6 +206,7 @@ export default function ContractCreateForm(props) {
               startDate,
               endDate: value,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription,
               contractPdf,
@@ -217,7 +226,7 @@ export default function ContractCreateForm(props) {
       ></TextField>
       <TextField
         label="Monthly rent"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -231,6 +240,7 @@ export default function ContractCreateForm(props) {
               startDate,
               endDate,
               monthlyRent: value,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription,
               contractPdf,
@@ -248,6 +258,42 @@ export default function ContractCreateForm(props) {
         hasError={errors.monthlyRent?.hasError}
         {...getOverrideProps(overrides, "monthlyRent")}
       ></TextField>
+      <TextField
+        label="Payment day of month"
+        isRequired={true}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={paymentDayOfMonth}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              startDate,
+              endDate,
+              monthlyRent,
+              paymentDayOfMonth: value,
+              rentCurrency,
+              contractDescription,
+              contractPdf,
+            };
+            const result = onChange(modelFields);
+            value = result?.paymentDayOfMonth ?? value;
+          }
+          if (errors.paymentDayOfMonth?.hasError) {
+            runValidationTasks("paymentDayOfMonth", value);
+          }
+          setPaymentDayOfMonth(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("paymentDayOfMonth", paymentDayOfMonth)
+        }
+        errorMessage={errors.paymentDayOfMonth?.errorMessage}
+        hasError={errors.paymentDayOfMonth?.hasError}
+        {...getOverrideProps(overrides, "paymentDayOfMonth")}
+      ></TextField>
       <SelectField
         label="Rent currency"
         placeholder="Please select an option"
@@ -260,6 +306,7 @@ export default function ContractCreateForm(props) {
               startDate,
               endDate,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency: value,
               contractDescription,
               contractPdf,
@@ -305,8 +352,10 @@ export default function ContractCreateForm(props) {
               startDate,
               endDate,
               monthlyRent,
+              paymentDayOfMonth,
               rentCurrency,
               contractDescription: value,
+              contractPdf,
             };
             const result = onChange(modelFields);
             value = result?.contractDescription ?? value;
@@ -325,7 +374,7 @@ export default function ContractCreateForm(props) {
       ></TextField>
       <FileUploader
         maxFileCount={1}
-        path="public/"
+        path="contracts/"
         maxfileSize={30000000}
         acceptedFileTypes={['.pdf']}
         processFile={processFile}

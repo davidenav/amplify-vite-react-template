@@ -32,6 +32,7 @@ export const onCreateContract = /* GraphQL */ `subscription OnCreateContract($fi
       __typename
     }
     monthlyRent
+    paymentDayOfMonth
     property {
       city
       country
@@ -92,6 +93,7 @@ export const onCreateContractRequests = /* GraphQL */ `subscription OnCreateCont
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -139,6 +141,7 @@ export const onCreateIncident = /* GraphQL */ `subscription OnCreateIncident($fi
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -268,6 +271,7 @@ export const onDeleteContract = /* GraphQL */ `subscription OnDeleteContract($fi
       __typename
     }
     monthlyRent
+    paymentDayOfMonth
     property {
       city
       country
@@ -328,6 +332,7 @@ export const onDeleteContractRequests = /* GraphQL */ `subscription OnDeleteCont
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -375,6 +380,7 @@ export const onDeleteIncident = /* GraphQL */ `subscription OnDeleteIncident($fi
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -504,6 +510,7 @@ export const onUpdateContract = /* GraphQL */ `subscription OnUpdateContract($fi
       __typename
     }
     monthlyRent
+    paymentDayOfMonth
     property {
       city
       country
@@ -564,6 +571,7 @@ export const onUpdateContractRequests = /* GraphQL */ `subscription OnUpdateCont
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate
@@ -611,6 +619,7 @@ export const onUpdateIncident = /* GraphQL */ `subscription OnUpdateIncident($fi
       endDate
       id
       monthlyRent
+      paymentDayOfMonth
       propertyId
       rentCurrency
       startDate

@@ -52,7 +52,7 @@ const LandlordHomePage: React.FC<LandlordHomePageProps> = ({ signOut, userEmail 
         setProperties(data.items.map(item => {
             const address = `${item.street}, ${item.city}, ${item.country} ${item.zip}`;
             const currentDate = new Date().toISOString();
-            const currentContracts = item.contracts.filter(contract => contract.startDate && contract.endDate && contract.startDate <= currentDate && contract.endDate >= currentDate);
+            const currentContracts = item.contracts?.filter(contract => contract.startDate && contract.endDate && contract.startDate <= currentDate && contract.endDate >= currentDate) ?? [];
             if (currentContracts.length > 1) {
             console.error('More than one current contract found for property:', item.displayName);
             }
@@ -61,7 +61,7 @@ const LandlordHomePage: React.FC<LandlordHomePageProps> = ({ signOut, userEmail 
                 displayName: item.displayName ?? '',
                 address: address,
                 currentContract: currentContracts.length > 0,
-                endDateOfCurrentContract: currentContracts.length > 0 ? currentContracts.length[0].endDate ?? '' : '',
+                endDateOfCurrentContract: currentContracts.length > 0 ? currentContracts[0].endDate ?? '' : '',
                 incidents: currentContracts.length > 0 ? currentContracts[0].incidents.filter(incident => incident.status === 'Open').map(incident => {
                     return {
                         id: incident.id,
@@ -101,7 +101,6 @@ const LandlordHomePage: React.FC<LandlordHomePageProps> = ({ signOut, userEmail 
           <div style={styles.menu}>
             <button onClick={signOut} className="menuItem" style={styles.menuItem}>Sign out</button>
             <Link to="/landlord" className="menuItem" style={styles.menuItem} onClick={() => setMenuOpen(false)}>Home</Link>
-            <Link to="/landlord/incidents-history" className="menuItem" style={styles.menuItem} onClick={() => setMenuOpen(false)}>Incidents History</Link>
           </div>
         )}
       </header>
@@ -137,15 +136,15 @@ const LandlordHomePage: React.FC<LandlordHomePageProps> = ({ signOut, userEmail 
             } />
             <Route path="/properties/new" element={
                 <div >
-                <PropertyCreateForm
-                    overrides={{  
-                    ClearButton: {
-                        display: 'none'}
-                    }}
-                    onSuccess={() => navigate("/landlord")}
-                    onError={(error: any) => console.error('Error creating property:', error)}
-                    landlordIdInput={userEmail}
-                />
+                    <PropertyCreateForm
+                        overrides={{  
+                        ClearButton: {
+                            display: 'none'}
+                        }}
+                        onSuccess={() => navigate("/landlord")}
+                        onError={(error: any) => console.error('Error creating property:', error)}
+                        landlordIdInput={userEmail}
+                    />
                 </div>
             } />
           <Route path="/property/*" element={<LandlordManageProperty />} />
